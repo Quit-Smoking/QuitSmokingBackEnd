@@ -16,17 +16,24 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email) {
+    public @ResponseBody String addNewUser (@RequestParam String email, @RequestParam String password, @RequestParam String nickname, @RequestParam String resolution) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
         User n = new User();
-        n.setName(name);
         n.setEmail(email);
+        n.setPassword(password);
+        n.setNickname(nickname);
+        n.setResolution(resolution);
         userRepository.save(n);
         return "Saved";
     }
+
+    @GetMapping(path="/findUserByEmail")
+    public @ResponseBody Iterable<User> findUserByEmail(@RequestParam String email){
+        return userRepository.findUserByEmail(email);
+    }
+
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {

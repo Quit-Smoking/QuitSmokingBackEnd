@@ -59,5 +59,4 @@ public class UserCessationRecord {
         this.is_enabled = is_enabled;
     }
 
-
 }
