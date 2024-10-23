@@ -1,6 +1,7 @@
-package com.example.accessingdatamysql;
+package com.example.accessingdatamysql.UserCessationRecord;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -13,11 +14,11 @@ public class UserCessationRecord {
 
     private Integer user_id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate end_date;
-
-    private boolean is_enabled;
 
     public Integer getId() {
         return id;
@@ -27,7 +28,7 @@ public class UserCessationRecord {
         this.id = id;
     }
 
-    public Integer getUserId(Integer user_id) {
+    public Integer getUserId() {
         return user_id;
     }
 
@@ -49,14 +50,6 @@ public class UserCessationRecord {
 
     public void setEndDate(LocalDate end_date) {
         this.end_date = end_date;
-    }
-
-    public boolean getIsEnabled() {
-        return is_enabled;
-    }
-
-    public void setIsEnabled(boolean is_enabled) {
-        this.is_enabled = is_enabled;
     }
 
 }
