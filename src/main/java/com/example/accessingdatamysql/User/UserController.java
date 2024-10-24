@@ -31,12 +31,12 @@ public class UserController {
 
     // 회원가입 실행
     @PostMapping("/register")
-    public String register(@RequestBody LoginRequest request, @RequestParam String nickname, @RequestParam String resolution) {
+    public String register(@RequestBody LoginRequest request) {
         User n = new User();
         n.setEmail(request.getEmail());
         n.setPassword(request.getPassword());
-        n.setNickname(nickname);
-        n.setResolution(resolution);
+        n.setNickname(request.getNickname());
+        n.setResolution(request.getResolution());
         userService.register(n);
         return "Saved";
     }
