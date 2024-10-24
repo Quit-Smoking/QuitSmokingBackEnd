@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql;
+package com.example.accessingdatamysql.Security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

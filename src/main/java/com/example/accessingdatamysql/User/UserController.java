@@ -1,8 +1,7 @@
 package com.example.accessingdatamysql.User;
 
-import com.example.accessingdatamysql.JwtUtil;
+import com.example.accessingdatamysql.Security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // This means that this class is a Controller
