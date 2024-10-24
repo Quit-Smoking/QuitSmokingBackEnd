@@ -3,12 +3,14 @@ package com.example.accessingdatamysql;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Component
 public class JwtUtil {
     // 암호 키
     private final String SECRET_KEY = "8ad3081f4ea3a95d2cee4db09ed1ffae9deb26d34005a17504e475e6d840881d20759085d5bc9197278b1eee9598359726ee5e5abe5997e3066372a929e358c1";
