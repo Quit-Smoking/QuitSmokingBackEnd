@@ -38,8 +38,6 @@ public class UserCessationRecordController {
             return "Error: " + e.getMessage();
 
         }
-
-
     }
 
     @GetMapping(path="/all")
