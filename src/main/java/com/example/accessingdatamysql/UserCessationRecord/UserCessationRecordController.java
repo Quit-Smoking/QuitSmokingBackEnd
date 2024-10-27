@@ -22,19 +22,24 @@ public class UserCessationRecordController {
 
     @PostMapping(path="/add") // Map ONLY POST Requests
     public @ResponseBody String addNewUserCessationRecord (@RequestParam String token, @RequestParam LocalDate start_date, @RequestParam LocalDate end_date) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
+        try {
+            UserCessationRecord n = new UserCessationRecord();
 
-        UserCessationRecord n = new UserCessationRecord();
+            String email = jwtUtil.extractEmail(token);
+            Integer user_id = userRepository.findByEmail(email).getId();
+            n.setUserId(user_id);
+            n.setStartDate(start_date);
+            n.setEndDate(end_date);
 
-        String email = jwtUtil.extractEmail(token);
-        Integer user_id = userRepository.findByEmail(email).getId();
-        n.setUserId(user_id);
-        n.setStartDate(start_date);
-        n.setEndDate(end_date);
+            userCessationRecordRepository.save(n);
+            return "Saved";
+        }
+        catch(Exception e){
+            return "Error: " + e.getMessage();
 
-        userCessationRecordRepository.save(n);
-        return "Saved";
+        }
+
+
     }
 
     @GetMapping(path="/all")
