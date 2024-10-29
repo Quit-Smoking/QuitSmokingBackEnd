@@ -1,7 +1,6 @@
 package com.example.accessingdatamysql.Mission;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
-import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
