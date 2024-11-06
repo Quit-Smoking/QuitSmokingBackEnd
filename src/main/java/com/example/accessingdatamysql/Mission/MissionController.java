@@ -20,17 +20,17 @@ public class MissionController {
     private UserRepository userRepository;
 
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody String addNewMission (@RequestParam String token, @RequestParam String mission, @RequestParam boolean is_deleted, @RequestParam boolean is_default, @RequestParam int[] weeks){
+    public @ResponseBody String addNewMission (@RequestBody MissionRequest request){
         Mission n = new Mission();
 
-        String email = jwtUtil.extractEmail(token);
+        String email = jwtUtil.extractEmail(request.getToken());
         Integer user_id = userRepository.findByEmail(email).getId();
 
         n.setUserId(user_id);
-        n.setMission(mission);
-        n.setIsDeleted(is_deleted);
-        n.setIsDefault(is_default);
-        n.setWeekData(weeks);
+        n.setMission(request.getMission());
+        n.setIsDeleted(request.getIsDeleted());
+        n.setIsDefault(request.getIsDefault());
+        n.setWeekData(request.getWeekData());
 
         missionRepository.save(n);
         return "Saved";
