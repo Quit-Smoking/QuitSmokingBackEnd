@@ -1,11 +1,9 @@
 package com.example.accessingdatamysql.CoupangCrawling;
 
-import com.example.accessingdatamysql.User.LoginRequest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,10 +36,10 @@ public class CoupangCrawlingController {
     }
 
     @GetMapping("/test")
-    public String test(@RequestParam String keyword, @RequestParam Integer page) {
+    public String test() {
         SearchAnswer searchAnswer = new SearchAnswer();
         try {
-            String coupangUrl = "https://www.naver.com/";
+            String coupangUrl = "https://www.coupang.com/?src=1042016&spec=10304902&addtag=900&ctag=HOME&lptag=coupang&itime=20241119125644&pageType=HOME&pageValue=HOME&wPcid=17063312576687348609914&wRef=www.google.com&wTime=20241119125644&redirect=landing&gclid=Cj0KCQiA6Ou5BhCrARIsAPoTxrATv7TtFW3-TX40WLMiVlbWDF8n6MmQhQpSrW9XGbcbIbZTaH_qqHQaAlTYEALw_wcB&mcid=c01144e02ba24009859858c594192d76&network=g";
             Document doc = Jsoup.connect(coupangUrl).get();
 
             //Elements elements = doc.select("search-product-link");
