@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,15 @@ import java.util.List;
 public class CoupangCrawlingService {
 
     public SearchAnswer searchProducts(String keyword, Integer page) {
+
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+
+
         WebDriver driver = new ChromeDriver();
         SearchAnswer searchAnswer = new SearchAnswer();
         String url = "https://www.coupang.com/np/search?q=" + keyword + "&page=" + page;
