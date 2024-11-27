@@ -23,9 +23,9 @@ public class CoupangCrawlingService {
         //System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--no-sandbox");
+        //options.addArguments("--headless");
+        //options.addArguments("--disable-gpu");
+        //options.addArguments("--no-sandbox");
 
 
         WebDriver driver = null;
@@ -38,7 +38,7 @@ public class CoupangCrawlingService {
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("search-product")));
+            //wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("search-product")));
 
             List<WebElement> elements = driver.findElements(By.className("search-product"));
             for (WebElement element : elements) {
