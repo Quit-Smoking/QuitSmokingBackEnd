@@ -17,6 +17,8 @@ public class MissionRecord {
 
     private LocalDate date;
 
+    private boolean is_completed;
+
     public Integer getId() {
         return id;
     }
@@ -48,5 +50,9 @@ public class MissionRecord {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public boolean getIs_completed(){return is_completed;}
+
+    public void setIs_completed(boolean is_completed){this.is_completed = is_completed;}
 
 }

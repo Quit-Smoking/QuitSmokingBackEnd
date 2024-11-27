@@ -27,12 +27,8 @@ public class MissionRecordService {
     public String addMissionRecord(MissionRecordRequest request){
         MissionRecord n = new MissionRecord();
 
-        String email = jwtUtil.extractEmail(request.getToken());
-        Integer user_id = userRepository.findByEmail(email).getId();
-        Integer mission_id = request.getMission().getId();
-
-        n.setUserId(user_id);
-        n.setMissionId(mission_id);
+        n.setUserId(request.getUser_id());
+        n.setMissionId(request.getMission_id());
         n.setDate(request.getDate());
 
         missionRecordRepository.save(n);

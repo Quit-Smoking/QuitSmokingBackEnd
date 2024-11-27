@@ -5,18 +5,13 @@ import com.example.accessingdatamysql.Mission.Mission;
 import java.time.LocalDate;
 
 public class MissionRecordRequest {
-    private String token;
-    private Mission mission;
+
+    private Integer user_id;
+    private Integer mission_id;
     private LocalDate date;
 
-    public String getToken(){
-        return token;
-    }
-
-    public Mission getMission(){
-        return mission;
-    }
-
+    public Integer getUser_id(){return user_id;}
+    public Integer getMission_id(){return mission_id;}
     public LocalDate getDate(){
         return date;
     }
