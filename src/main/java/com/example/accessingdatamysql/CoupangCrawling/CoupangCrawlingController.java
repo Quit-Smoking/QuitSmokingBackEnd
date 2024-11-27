@@ -36,7 +36,7 @@ public class CoupangCrawlingController {
         //System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
@@ -46,11 +46,11 @@ public class CoupangCrawlingController {
             driver.get("https://www.coupang.com");
 
             // 요소가 나타날 때까지 대기 (최대 10초)
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("cart-title")));
+            //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            //WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("cart-title")));
 
-            String answer = element.getText();
-            return answer;
+            //String answer = element.getText();
+            return driver.getTitle();
         } catch (Exception e) {
             e.printStackTrace();
             return e.getMessage();
