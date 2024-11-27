@@ -2,6 +2,9 @@ package com.example.accessingdatamysql.Mission;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="missions")
 public class Mission {
@@ -13,6 +16,8 @@ public class Mission {
     private Integer user_id;
 
     private String mission;
+
+    private LocalDate start_date;
 
     private boolean is_deleted;
 
@@ -67,6 +72,14 @@ public class Mission {
 
     public void setWeekData(int[] week_data) {
         this.week_data = week_data;
+    }
+
+    public LocalDate getStartDate() {
+        return start_date;
+    }
+
+    public void setStartDate(LocalDate start_date) {
+        this.start_date = start_date;
     }
 
 }

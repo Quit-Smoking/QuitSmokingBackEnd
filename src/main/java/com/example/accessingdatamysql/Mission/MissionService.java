@@ -25,12 +25,12 @@ public class MissionService {
 
         n.setUserId(user_id);
         n.setMission(request.getMission());
-        n.setIsDeleted(request.getIsDeleted());
-        n.setIsDefault(request.getIsDefault());
-        n.setWeekData(request.getWeekData());
+        n.setStartDate(request.getStart_date());
+        n.setIsDeleted(request.getIs_deleted());
+        n.setIsDefault(request.getIs_default());
+        n.setWeekData(request.getWeek_data());
 
         missionRepository.save(n);
-
 
         return "Saved";
     }
