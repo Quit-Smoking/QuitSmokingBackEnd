@@ -1,5 +1,7 @@
 FROM openjdk:17-jdk-alpine
 
+RUN apt-get update && apt-get install -y wget curl unzip
+
 WORKDIR /app
 
 COPY target/quit-smoking-backend-1.0.0.jar app.jar
