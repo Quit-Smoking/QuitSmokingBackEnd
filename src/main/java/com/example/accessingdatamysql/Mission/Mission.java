@@ -1,6 +1,7 @@
 package com.example.accessingdatamysql.Mission;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +24,7 @@ public class Mission {
 
     private boolean is_default;
 
-    private int[] week_data = new int[7];
-
+    private String week_data;
 
     public Integer getId() {
         return id;
@@ -66,11 +66,11 @@ public class Mission {
         this.is_default = is_default;
     }
 
-    public int[] getWeekData() {
+    public String getWeekData() {
         return week_data;
     }
 
-    public void setWeekData(int[] week_data) {
+    public void setWeekData(String week_data) {
         this.week_data = week_data;
     }
 

@@ -15,7 +15,7 @@ public class MissionRequest {
 
     private boolean is_default;
 
-    private int[] week_data = new int[7];
+    private String week_data;
 
     public String getToken(){
         return token;
@@ -34,7 +34,7 @@ public class MissionRequest {
     public boolean getIs_default(){
         return is_default;
     }
-    public int[] getWeek_data(){
+    public String getWeek_data(){
         return week_data;
     }
 
