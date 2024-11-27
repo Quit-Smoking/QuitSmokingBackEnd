@@ -1,6 +1,7 @@
 package com.example.accessingdatamysql.MissonRecord;
 
 import com.example.accessingdatamysql.Mission.MissionRepository;
+import com.example.accessingdatamysql.Mission.MissionRequest;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,8 @@ public class MissionRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Autowired
-    private MissionRecordRequest request;
 
-    public MissionRecordService(MissionRecordRequest request){
-        this.request = request;
-    }
-
-    public String addMissionRecord(){
+    public String addMissionRecord(MissionRecordRequest request){
         MissionRecord n = new MissionRecord();
 
         String email = jwtUtil.extractEmail(request.getToken());
