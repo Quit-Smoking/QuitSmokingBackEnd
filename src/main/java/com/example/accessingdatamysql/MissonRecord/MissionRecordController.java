@@ -28,20 +28,13 @@ public class MissionRecordController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private MissionRecordService missionRecordService;
+
     @PostMapping(path="/add")
     @Operation(summary = "사용자가 미션을 완수하면 해당 미션을 db에 저장함", description = "Parameter로 token, mission, date를 받아서 db에 저장한다")// Map ONLY POST Requests
-    public @ResponseBody String addMissionRecord (@RequestParam String token, @RequestParam Mission mission, @RequestParam LocalDate date) {
-        MissionRecord n = new MissionRecord();
-
-        String email = jwtUtil.extractEmail(token);
-        Integer user_id = userRepository.findByEmail(email).getId();
-        Integer mission_id = mission.getId();
-        n.setUserId(user_id);
-        n.setMissionId(mission_id);
-        n.setDate(date);
-
-        missionRecordRepository.save(n);
-        return "Saved";
+    public @ResponseBody String addMissionRecord (@RequestBody MissionRecordRequest request) {
+        return missionRecordService.addMissionRecord(request);
     }
 
     @GetMapping(path="/all")
