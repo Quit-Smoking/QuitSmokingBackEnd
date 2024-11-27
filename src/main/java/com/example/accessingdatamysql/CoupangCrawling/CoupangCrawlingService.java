@@ -24,7 +24,7 @@ public class CoupangCrawlingService {
         options.addArguments("--no-sandbox");
 
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = new ChromeDriver(options);
         SearchAnswer searchAnswer = new SearchAnswer();
         String url = "https://www.coupang.com/np/search?q=" + keyword + "&page=" + page;
 
