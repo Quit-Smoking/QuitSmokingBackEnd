@@ -45,6 +45,8 @@ public class CoupangCrawlingController {
         // 페이지 제목 확인
         String answer = "Page title is: " + driver.getTitle();
 
+        answer += driver.toString();
+
         // 드라이버 종료
         driver.quit();
 
