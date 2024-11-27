@@ -1,11 +1,17 @@
 package com.example.accessingdatamysql.MissonRecord;
 
+import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Mission.MissionRequest;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MissionRecordService {
@@ -35,6 +41,29 @@ public class MissionRecordService {
         return "Saved";
     }
 
+    public void generateMissionRecords(Mission mission){
+        String week_data = mission.getWeekData();
+        LocalDate start_date = mission.getStartDate();
+        Integer user_id = mission.getUserId();
 
+        List<MissionRecord> records = new ArrayList<>();
 
+        // 56일 이후의 데이터까지 일단 저장.
+        for(int i = 0; i < 56; i++){
+            LocalDate currentDate = start_date.plusDays(i);
+            int dayOfWeek = currentDate.getDayOfWeek().getValue();
+
+            if(week_data.charAt(dayOfWeek - 1) == '1'){
+                MissionRecord record = new MissionRecord();
+                record.setDate(currentDate);
+                record.setMissionId(mission.getId());
+                record.setUserId(user_id);
+                record.setIs_completed(false);
+                records.add(record);
+            }
+        }
+
+        missionRecordRepository.saveAll(records);
+
+    }
 }

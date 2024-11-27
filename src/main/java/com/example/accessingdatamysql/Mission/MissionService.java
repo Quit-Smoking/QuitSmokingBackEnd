@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.Mission;
 
+import com.example.accessingdatamysql.MissonRecord.MissionRecordService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class MissionService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MissionRecordService missionRecordService;
+
     public String addNewMission(MissionRequest request){
         Mission n = new Mission();
 
@@ -31,6 +35,8 @@ public class MissionService {
         n.setWeekData(request.getWeek_data());
 
         missionRepository.save(n);
+        // MissionRecords 들 자동으로 생성.
+        missionRecordService.generateMissionRecords(n);
 
         return "Saved";
     }
