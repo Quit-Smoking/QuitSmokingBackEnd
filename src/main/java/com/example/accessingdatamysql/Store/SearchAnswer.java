@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql.CoupangCrawling;
+package com.example.accessingdatamysql.Store;
 
 import java.util.ArrayList;
 import java.util.List;
