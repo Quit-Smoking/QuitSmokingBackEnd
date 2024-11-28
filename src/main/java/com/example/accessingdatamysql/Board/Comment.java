@@ -67,4 +67,8 @@ public class Comment {
     public void setUpdatedAt(LocalDate updatedAt){
         this.updatedAt = updatedAt;
     }
+
+    public LocalDate getUpdatedAt(){
+        return updatedAt;
+    }
 }
