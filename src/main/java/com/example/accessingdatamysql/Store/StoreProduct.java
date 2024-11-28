@@ -18,7 +18,7 @@ public class StoreProduct {
     private Integer id;
 
     @Column(name = "keyword_id")
-    private Integer keyWordId;
+    private Integer keywordId;
 
     @Column(name = "product_name")
     private String productName;
@@ -42,12 +42,12 @@ public class StoreProduct {
         this.id = id;
     }
 
-    public Integer getKeyWordId() {
-        return keyWordId;
+    public Integer getKeywordId() {
+        return keywordId;
     }
 
-    public void setKeyWordId(Integer keyWordId) {
-        this.keyWordId = keyWordId;
+    public void setKeywordId(Integer keywordId) {
+        this.keywordId = keywordId;
     }
 
     public String getProductName() {

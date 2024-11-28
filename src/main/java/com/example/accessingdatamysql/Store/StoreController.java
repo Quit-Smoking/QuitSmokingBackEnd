@@ -15,4 +15,9 @@ public class StoreController {
     public String saveProducts(@RequestBody SearchAnswer request, @RequestParam Integer keywordId){
         return storeService.saveProducts(request, keywordId);
     }
+
+    @GetMapping("/show_products")
+    public SearchAnswer showProducts(@RequestParam Integer keyWordId){
+        return storeService.showProducts(keyWordId);
+    }
 }
