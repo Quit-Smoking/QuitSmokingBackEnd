@@ -21,15 +21,15 @@ public class UserCessationRecordService {
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
-    public String addNewUserCessationRecord(String token, LocalDate start_date, LocalDate end_date){
+    public String addNewUserCessationRecord(String token, LocalDate start_date, String resolution){
         try {
             UserCessationRecord n = new UserCessationRecord();
 
             String email = jwtUtil.extractEmail(token);
-            Integer user_id = userRepository.findByEmail(email).getId();
-            n.setUserId(user_id);
+            Integer userId = userRepository.findByEmail(email).getId();
+            n.setUserId(userId);
             n.setStartDate(start_date);
-            n.setEndDate(end_date);
+            n.setResolution(resolution);
 
             userCessationRecordRepository.save(n);
             return "Saved";

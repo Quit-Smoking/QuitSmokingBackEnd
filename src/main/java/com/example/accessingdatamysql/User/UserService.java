@@ -46,8 +46,6 @@ public class UserService {
         n.setEmail(request.getEmail());
         n.setPassword(request.getPassword());
         n.setNickname(request.getNickname());
-        n.setResolution(request.getResolution());
-
         n.setPassword(passwordEncoder.encode(n.getPassword()));
         userRepository.save(n);
     }
