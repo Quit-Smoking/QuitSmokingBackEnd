@@ -5,6 +5,7 @@ import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MissionService {
@@ -21,13 +22,14 @@ public class MissionService {
     @Autowired
     private MissionRecordService missionRecordService;
 
+
     public String addNewMission(MissionRequest request){
         Mission n = new Mission();
 
         String email = jwtUtil.extractEmail(request.getToken());
-        Integer user_id = userRepository.findByEmail(email).getId();
+        Integer userId = userRepository.findByEmail(email).getId();
 
-        n.setUserId(user_id);
+        n.setUserId(userId);
         n.setMission(request.getMission());
         n.setStartDate(request.getStart_date());
         n.setIsDeleted(request.getIs_deleted());
@@ -35,7 +37,7 @@ public class MissionService {
         n.setWeekData(request.getWeek_data());
 
         missionRepository.save(n);
-        // MissionRecords 들 자동으로 생성.
+
         missionRecordService.generateMissionRecords(n);
 
         return "Saved";

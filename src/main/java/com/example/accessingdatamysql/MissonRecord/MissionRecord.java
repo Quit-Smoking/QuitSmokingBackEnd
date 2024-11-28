@@ -11,13 +11,16 @@ public class MissionRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer user_id;
+    @Column(name = "user_id")
+    private Integer userId;
 
-    private Integer mission_id;
+    @Column(name = "mission_id")
+    private Integer missionId;
 
     private LocalDate date;
 
-    private boolean is_completed;
+    @Column(name = "is_completed")
+    private boolean isCompleted;
 
     public Integer getId() {
         return id;
@@ -28,19 +31,19 @@ public class MissionRecord {
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getMissionId() {
-        return mission_id;
+        return missionId;
     }
 
-    public void setMissionId(Integer mission_id) {
-        this.mission_id = mission_id;
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public LocalDate getDate() {
@@ -51,8 +54,8 @@ public class MissionRecord {
         this.date = date;
     }
 
-    public boolean getIs_completed(){return is_completed;}
+    public boolean getCompleted(){return isCompleted;}
 
-    public void setIs_completed(boolean is_completed){this.is_completed = is_completed;}
+    public void setCompleted(boolean completed){this.isCompleted = completed;}
 
 }

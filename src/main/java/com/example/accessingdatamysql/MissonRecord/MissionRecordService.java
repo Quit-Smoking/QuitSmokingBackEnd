@@ -2,16 +2,16 @@ package com.example.accessingdatamysql.MissonRecord;
 
 import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.Mission.MissionRepository;
-import com.example.accessingdatamysql.Mission.MissionRequest;
+import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class MissionRecordService {
@@ -29,12 +29,11 @@ public class MissionRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
-
     public String addMissionRecord(MissionRecordRequest request){
         MissionRecord n = new MissionRecord();
 
-        n.setUserId(request.getUser_id());
-        n.setMissionId(request.getMission_id());
+        n.setUserId(request.getUserId());
+        n.setMissionId(request.getMissionId());
         n.setDate(request.getDate());
 
         missionRecordRepository.save(n);
@@ -58,12 +57,48 @@ public class MissionRecordService {
                 record.setDate(currentDate);
                 record.setMissionId(mission.getId());
                 record.setUserId(user_id);
-                record.setIs_completed(false);
+                record.setCompleted(false);
                 records.add(record);
             }
         }
-
         missionRecordRepository.saveAll(records);
-
     }
+
+    public List<MissionRecordsFetchResponse> fetchMissionRecords(String token){
+        // email -> user_id 찾기, mission을 찾고 이를 바탕으로 데이터를 넘겨준다.
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        // 리턴값.
+        List<MissionRecordsFetchResponse> response = new ArrayList<>();
+
+        // 유저가 가진 레코드들.
+        List<MissionRecord> records = getMissionRecordsByUserId(userId);
+
+        for(MissionRecord record : records){
+            MissionRecordsFetchResponse n = new MissionRecordsFetchResponse();
+            n.setId(record.getId());
+            n.setMissionId(record.getMissionId());
+            String missionName = missionRepository.findById(record.getMissionId())
+                    .map(Mission::getMission) // Mission 객체에서 Mission 이름 가져오기
+                    .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMissionId()));
+            n.setMission(missionName);
+            n.setDate(record.getDate());
+            n.setCompleted(record.getCompleted());
+
+            response.add(n);
+        }
+
+        return response;
+    }
+
+    // 특정 record를 completed 처리함.
+    public String completeMissionRecord(String token, Integer mission_record_id){
+        return null;
+    }
+
+    public List<MissionRecord> getMissionRecordsByUserId(Integer user_id){
+        return missionRecordRepository.findAllByUserId(user_id);
+    };
+
 }
