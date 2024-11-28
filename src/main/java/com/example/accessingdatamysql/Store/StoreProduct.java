@@ -3,7 +3,6 @@ package com.example.accessingdatamysql.Store;
 import jakarta.persistence.*;
 
 //0 니코틴 솔루션 / 1 니코틴 배출 영양제
-//2 니코틴 검사키트
 //3 니코틴 제거제
 // 5 금연패치
 //6 금연껌
