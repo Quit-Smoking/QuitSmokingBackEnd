@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchAnswer {
-
-
     private List<ProductData> productData = new ArrayList<>();
 
     public void addProduct(ProductData product) {
