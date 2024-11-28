@@ -24,6 +24,10 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedAt;
 
+    private int numberOfComment = 0;
+
+    private int numberOfLikes = 0;
+
     public void setId(int id){
         this.id = id;
     }
@@ -70,4 +74,19 @@ public class Post {
         return updatedAt;
     }
 
+    public void setNumberOfComment(){
+        numberOfComment++;
+    }
+
+    public int getNumberOfComment(){
+        return numberOfComment;
+    }
+
+    public void setNumberOfLikes(){
+        numberOfLikes++;
+    }
+
+    public int getNumberOfLikes(){
+        return numberOfLikes;
+    }
 }

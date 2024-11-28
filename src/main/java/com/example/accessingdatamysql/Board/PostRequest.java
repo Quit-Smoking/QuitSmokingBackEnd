@@ -3,6 +3,7 @@ package com.example.accessingdatamysql.Board;
 import java.time.LocalDate;
 
 public class PostRequest {
+
     private String token;
     private String title;
     private String content;
