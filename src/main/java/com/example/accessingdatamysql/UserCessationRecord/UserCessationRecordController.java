@@ -23,7 +23,7 @@ public class UserCessationRecordController {
 
     @PostMapping(path="/add")
     @Operation(summary="사용자 금연을 중단하면 해당 금연 기록을 저장함", description="Parameter로 token, start_date와 end_date를 보내면 해당 정보들을 db에 저장한다")// Map ONLY POST Requests
-    public @ResponseBody String addNewUserCessationRecord (@RequestParam String token, @RequestParam LocalDate start_date, @RequestParam LocalDate end_date) {
+    public @ResponseBody String addNewUserCessationRecord (@RequestHeader("Authorization") String token, @RequestParam LocalDate start_date, @RequestParam LocalDate end_date) {
         try {
             UserCessationRecord n = new UserCessationRecord();
 
