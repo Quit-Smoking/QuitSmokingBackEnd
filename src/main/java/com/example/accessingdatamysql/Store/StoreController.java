@@ -15,8 +15,13 @@ public class StoreController {
         return storeService.saveProducts(request, keywordId);
     }
 
-    @GetMapping("/show_products")
+    @GetMapping("/show_products_by_keyword")
     public SearchAnswer showProducts(@RequestParam Integer keyWordId){
         return storeService.showProducts(keyWordId);
+    }
+
+    @GetMapping("/show_all_products")
+    public SearchAnswer showAllProducts(){
+        return storeService.showProducts();
     }
 }

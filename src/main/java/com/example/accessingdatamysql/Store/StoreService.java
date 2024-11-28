@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.Store;
 
+import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +54,29 @@ public class StoreService {
         return searchAnswer;
     }
 
+    // 사용자에게 상점 전체를 보여줌.
+    public SearchAnswer showProducts()
+    {
+        SearchAnswer searchAnswer = new SearchAnswer();
+
+        // 현재 키워드가 포함된 모든 상품을 들여온다.
+        List<StoreProduct> storeProducts = getAllProducts();
+
+        for(StoreProduct product : storeProducts){
+            ProductData productData = new ProductData(product.getProductName(), product.getProductPrice(), product.getProductImageUrl(), product.getProductUrl(), product.getRanking());
+            searchAnswer.addProduct(productData);
+        }
+        return searchAnswer;
+    }
+
     public List<StoreProduct> findProductsByKeywordId(Integer keyWordId){
         return storeProductRepository.findByKeywordId(keyWordId);
+    }
+
+    public List<StoreProduct> getAllProducts(){
+        Iterable<StoreProduct> iterable = storeProductRepository.findAll();
+        List<StoreProduct> storeProducts = new ArrayList<>();
+        iterable.forEach(storeProducts::add);
+        return storeProducts;
     }
 }
