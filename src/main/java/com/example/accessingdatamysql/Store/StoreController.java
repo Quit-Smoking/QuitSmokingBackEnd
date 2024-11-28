@@ -1,6 +1,5 @@
 package com.example.accessingdatamysql.Store;
 
-import com.example.accessingdatamysql.CoupangCrawling.SearchAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

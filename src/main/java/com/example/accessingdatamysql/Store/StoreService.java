@@ -1,7 +1,5 @@
 package com.example.accessingdatamysql.Store;
 
-import com.example.accessingdatamysql.CoupangCrawling.ProductData;
-import com.example.accessingdatamysql.CoupangCrawling.SearchAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.accessingdatamysql.CoupangCrawling;
+package com.example.accessingdatamysql.Store;
 
 public class ProductData {
 
