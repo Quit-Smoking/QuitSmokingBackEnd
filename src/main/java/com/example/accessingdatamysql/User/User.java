@@ -15,7 +15,6 @@ public class User {
 
     private String nickname;
 
-    private String resolution;
 
     public Integer getId() {
         return id;
@@ -49,12 +48,5 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
-    }
 
 }

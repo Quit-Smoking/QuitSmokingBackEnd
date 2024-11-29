@@ -51,5 +51,4 @@ public class UserCessationRecord {
     public void setEndDate(LocalDate end_date) {
         this.end_date = end_date;
     }
-
 }
