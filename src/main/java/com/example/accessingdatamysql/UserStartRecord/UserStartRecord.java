@@ -1,6 +1,5 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
