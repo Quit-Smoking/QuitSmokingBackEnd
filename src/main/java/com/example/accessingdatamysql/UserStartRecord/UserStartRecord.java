@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="Motive")
+@Table(name="UserStartRecord")
 public class UserStartRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -35,9 +35,12 @@ public class UserStartRecordService {
 
     }
 
-    public UserStartRecord findNewUserStartRecord(Integer id){
+    public UserStartRecord findUserStartRecord(String token){
 
-        return userStartRecordRepository.findRecordById(id);
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        return userStartRecordRepository.findRecordByUserId(userId);
     }
 
 }
