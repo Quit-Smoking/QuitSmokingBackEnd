@@ -2,6 +2,8 @@ package com.example.accessingdatamysql.UserStartRecord;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name="Motive")
 public class UserStartRecord {
@@ -16,6 +18,8 @@ public class UserStartRecord {
     private String resolution;
 
     private Integer numbers_smoked;
+
+    private LocalDate start_date;
 
     public Integer getId() {
         return id;
@@ -55,5 +59,11 @@ public class UserStartRecord {
 
     public void setNumbersSmoked(Integer numbers_smoked) {
         this.numbers_smoked = numbers_smoked;
+    }
+    public LocalDate getStartDate(){
+        return start_date;
+    }
+    public void setStartDate(LocalDate start_date){
+        this.start_date = start_date;
     }
 }
