@@ -1,13 +1,11 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
-import com.example.accessingdatamysql.Security.JwtUtil;
-import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path="/motive")
+@RequestMapping(path="/UserStartRecord")
 public class UserStartRecordController {
     @Autowired
     private UserStartRecordRepository userStartRecordRepository;
@@ -18,6 +16,11 @@ public class UserStartRecordController {
     @PostMapping(path="/add")
     public @ResponseBody String addNewMotive(@RequestBody UserStartRecordRequest request){
         return userStartRecordService.addNewUserStartRecord(request);
+    }
+
+    @GetMapping(path="/findUserRecord")
+    public @ResponseBody UserStartRecord getUserMotive(@RequestParam Integer id){
+        return userStartRecordService.findNewUserStartRecord(id);
     }
 
     @GetMapping(path="/all")

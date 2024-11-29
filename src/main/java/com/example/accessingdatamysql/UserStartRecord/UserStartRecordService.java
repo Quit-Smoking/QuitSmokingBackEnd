@@ -16,8 +16,10 @@ public class UserStartRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private UserStartRecord n;
+
     public String addNewUserStartRecord(UserStartRecordRequest request){
-        UserStartRecord n = new UserStartRecord();
+        n = new UserStartRecord();
 
         String email = jwtUtil.extractEmail(request.getToken());
         Integer userId = userRepository.findByEmail(email).getId();
@@ -28,8 +30,14 @@ public class UserStartRecordService {
         n.setStartDate(request.getStartDate());
 
         userStartRecordRepository.save(n);
+
         return "Saved";
+
     }
 
+    public UserStartRecord findNewUserStartRecord(Integer id){
+
+        return userStartRecordRepository.findRecordById(id);
+    }
 
 }
