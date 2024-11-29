@@ -1,6 +1,8 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -11,15 +13,16 @@ public class UserStartRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     private String motive;
 
     private String resolution;
 
-    private Integer numbers_smoked;
+    private Integer numbersSmoked;
 
-    private LocalDate start_date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
 
     public Integer getId() {
         return id;
@@ -30,11 +33,11 @@ public class UserStartRecord {
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getMotive() {
@@ -54,16 +57,16 @@ public class UserStartRecord {
     }
 
     public Integer getNumbersSmoked() {
-        return numbers_smoked;
+        return numbersSmoked;
     }
 
-    public void setNumbersSmoked(Integer numbers_smoked) {
-        this.numbers_smoked = numbers_smoked;
+    public void setNumbersSmoked(Integer numbersSmoked) {
+        this.numbersSmoked = numbersSmoked;
     }
     public LocalDate getStartDate(){
-        return start_date;
+        return startDate;
     }
-    public void setStartDate(LocalDate start_date){
-        this.start_date = start_date;
+    public void setStartDate(LocalDate startDate){
+        this.startDate = startDate;
     }
 }

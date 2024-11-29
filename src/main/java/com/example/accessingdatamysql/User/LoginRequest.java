@@ -6,7 +6,6 @@ public class LoginRequest {
     private String email;
     private String password;
     private String nickname;
-    private String resolution;
 
     public String getEmail() {return email;}
 
@@ -14,5 +13,4 @@ public class LoginRequest {
 
     public String getNickname() {return nickname;}
 
-    public String getResolution() {return resolution;}
 }

@@ -5,17 +5,17 @@ import java.time.LocalDate;
 public class UserStartRecordRequest {
 
     private String token;
-    private Integer numbers_smoked;
     private String resolution;
     private String motive;
-    private LocalDate start_date;
+    private LocalDate startDate;
+    private Integer numbersSmoked;
 
     public String getToken() {
         return token;
     }
 
     public Integer getNumbersSmoked() {
-        return numbers_smoked;
+        return numbersSmoked;
     }
 
     public String getResolution() {
@@ -27,6 +27,6 @@ public class UserStartRecordRequest {
     }
 
     public LocalDate getStartDate() {
-        return start_date;
+        return startDate;
     }
 }

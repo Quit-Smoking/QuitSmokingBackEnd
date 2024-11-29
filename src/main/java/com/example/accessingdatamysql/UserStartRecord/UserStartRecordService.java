@@ -20,8 +20,8 @@ public class UserStartRecordService {
         UserStartRecord n = new UserStartRecord();
 
         String email = jwtUtil.extractEmail(request.getToken());
-        Integer user_id = userRepository.findByEmail(email).getId();
-        n.setUserId(user_id);
+        Integer userId = userRepository.findByEmail(email).getId();
+        n.setUserId(userId);
         n.setNumbersSmoked(request.getNumbersSmoked());
         n.setMotive(request.getMotive());
         n.setResolution(request.getResolution());
