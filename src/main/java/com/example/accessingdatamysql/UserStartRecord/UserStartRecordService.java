@@ -23,15 +23,26 @@ public class UserStartRecordService {
 
         String email = jwtUtil.extractEmail(request.getToken());
         Integer userId = userRepository.findByEmail(email).getId();
-        n.setUserId(userId);
-        n.setNumbersSmoked(request.getNumbersSmoked());
-        n.setMotive(request.getMotive());
-        n.setResolution(request.getResolution());
-        n.setStartDate(request.getStartDate());
 
-        userStartRecordRepository.save(n);
+        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
 
-        return "Saved";
+        if(user == null){
+            n.setUserId(userId);
+            n.setNumbersSmoked(request.getNumbersSmoked());
+            n.setMotive(request.getMotive());
+            n.setResolution(request.getResolution());
+            n.setStartDate(request.getStartDate());
+            userStartRecordRepository.save(n);
+
+            return "Saved";
+        }else{
+            user.setMotive(request.getMotive());
+            user.setResolution(request.getResolution());
+            user.setNumbersSmoked(request.getNumbersSmoked());
+            userStartRecordRepository.save(user);
+
+            return "Changed existing data";
+        }
 
     }
 
@@ -39,6 +50,8 @@ public class UserStartRecordService {
 
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
+
+        System.out.println(userStartRecordRepository.findRecordByUserId(userId));
 
         return userStartRecordRepository.findRecordByUserId(userId);
     }
