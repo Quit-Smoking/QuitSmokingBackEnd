@@ -1,12 +1,12 @@
 package com.example.accessingdatamysql.Board;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "Comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -10,9 +10,9 @@ import java.time.LocalDate;
 public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int userId;
+    private Integer userId;
 
     private String title;
 
