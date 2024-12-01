@@ -26,7 +26,7 @@ public class UserController {
 
     // 회원가입 실행
     @PostMapping("/register")
-    @Operation(summary = "회원가입", description = "Parameter로 LoginRequest(email, password, nickname, resolution)를 보내면 해당 정보가 db에 저장이 된다.")
+    @Operation(summary = "회원가입", description = "Parameter로 LoginRequest(email, password, nickname)을 보내면 해당 정보가 db에 저장이 된다.")
     public String register(@RequestBody RegisterRequest request) {
         userService.register(request);
         return "Saved";

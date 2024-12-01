@@ -18,8 +18,8 @@ public class UserStartRecordController {
         return userStartRecordService.addNewUserStartRecord(request);
     }
 
-    @GetMapping(path="/findUserRecord")
-    public @ResponseBody UserStartRecord getUserMotive(@RequestParam String token){
+    @GetMapping(path="/findUserStartRecord")
+    public @ResponseBody UserStartRecord findUserStartRecord(@RequestParam String token){
         return userStartRecordService.findUserStartRecord(token);
     }
 

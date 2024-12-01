@@ -49,12 +49,7 @@ public class UserStartRecordService {
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
 
-        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
-        if(user == null){
-            return null;
-        }else{
-            return userStartRecordRepository.findRecordByUserId(userId);
-        }
+        return userStartRecordRepository.findRecordByUserId(userId);
 
     }
 
