@@ -3,18 +3,11 @@ package com.example.accessingdatamysql.MissonRecord;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
-import com.example.accessingdatamysql.User.UserRepository;
-import com.example.accessingdatamysql.Mission.Mission;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/mission_record") // This means URL's start with /demo (after Application path)
@@ -25,9 +18,6 @@ public class MissionRecordController {
 
     @Autowired
     private MissionRepository missionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
