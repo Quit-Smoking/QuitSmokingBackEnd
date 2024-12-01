@@ -1,6 +1,7 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,14 @@ public class UserStartRecordController {
     }
 
     @GetMapping(path="/findUserStartRecord")
-    public @ResponseBody UserStartRecord findUserStartRecord(@RequestParam String token){
-        return userStartRecordService.findUserStartRecord(token);
+    public ResponseEntity<UserStartRecord> findUserStartRecord(@RequestParam String token){
+        UserStartRecord record =  userStartRecordService.findUserStartRecord(token);
+
+        if(record == null){
+            return ResponseEntity.ok(null);
+        }
+
+        return ResponseEntity.ok(record);
     }
 
     @GetMapping(path="/all")
