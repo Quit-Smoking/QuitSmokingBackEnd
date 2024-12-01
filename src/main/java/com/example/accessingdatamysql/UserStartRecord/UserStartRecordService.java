@@ -16,10 +16,8 @@ public class UserStartRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    private UserStartRecord n;
-
     public String addNewUserStartRecord(UserStartRecordRequest request){
-        n = new UserStartRecord();
+        UserStartRecord n = new UserStartRecord();
 
         String email = jwtUtil.extractEmail(request.getToken());
         Integer userId = userRepository.findByEmail(email).getId();
@@ -51,9 +49,13 @@ public class UserStartRecordService {
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
 
-        System.out.println(userStartRecordRepository.findRecordByUserId(userId));
+        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
+        if(user == null){
+            return null;
+        }else{
+            return userStartRecordRepository.findRecordByUserId(userId);
+        }
 
-        return userStartRecordRepository.findRecordByUserId(userId);
     }
 
 }
