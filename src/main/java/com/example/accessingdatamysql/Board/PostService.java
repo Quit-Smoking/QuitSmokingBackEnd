@@ -9,14 +9,36 @@ import org.springframework.stereotype.Service;
 public class PostService {
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     public String addPost(PostRequest request){
-        //String email = userRepository.findByEmail()
+        Post n = new Post();
+
+        String email = jwtUtil.extractEmail(request.getToken());
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        n.setUserId(userId);
+        n.setTitle(request.getTitle());
+        n.setContent(request.getContent());
+        n.setCreatedAt(request.getCreatedAt());
+        n.setUpdatedAt(request.getUpdatedAt());
+
+        postRepository.save(n);
         return "Saved";
     }
+
+    public Iterable<Post> findPostByUser(String token){
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        return postRepository.findPostByUser(userId);
+    }
+
 
 }

@@ -1,18 +1,18 @@
 package com.example.accessingdatamysql.Board;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "Post")
 public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    private int userid;
+    private int userId;
 
     private String title;
 
@@ -24,9 +24,9 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedAt;
 
-    private int numberOfComment = 0;
-
-    private int numberOfLikes = 0;
+//    private int numberOfComment = 0;
+//
+//    private int numberOfLikes = 0;
 
     public void setId(int id){
         this.id = id;
@@ -36,12 +36,12 @@ public class Post {
         return id;
     }
 
-    public void setUserid(int userid){
-        this.userid = userid;
+    public void setUserId(int userid){
+        this.userId = userid;
     }
 
-    public int getUserid(){
-        return userid;
+    public int getUserId(){
+        return userId;
     }
 
     public void setTitle(String title){
@@ -73,20 +73,20 @@ public class Post {
     public LocalDate getUpdatedAt(){
         return updatedAt;
     }
-
-    public void setNumberOfComment(){
-        numberOfComment++;
-    }
-
-    public int getNumberOfComment(){
-        return numberOfComment;
-    }
-
-    public void setNumberOfLikes(){
-        numberOfLikes++;
-    }
-
-    public int getNumberOfLikes(){
-        return numberOfLikes;
-    }
+//
+//    public void setNumberOfComment(){
+//        numberOfComment++;
+//    }
+//
+//    public int getNumberOfComment(){
+//        return numberOfComment;
+//    }
+//
+//    public void setNumberOfLikes(){
+//        numberOfLikes++;
+//    }
+//
+//    public int getNumberOfLikes(){
+//        return numberOfLikes;
+//    }
 }
