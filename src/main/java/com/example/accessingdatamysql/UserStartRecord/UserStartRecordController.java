@@ -15,14 +15,10 @@ public class UserStartRecordController {
     private UserStartRecordService userStartRecordService;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewMotive(@RequestBody UserStartRecordRequest request){
-        return userStartRecordService.addNewUserStartRecord(request);
-    }
+    public @ResponseBody String addNewMotive(@RequestBody UserStartRecordRequest request){ return userStartRecordService.addNewUserStartRecord(request); }
 
     @GetMapping(path="/findUserStartRecord")
-    public @ResponseBody UserStartRecord findUserStartRecord(@RequestParam String token){
-        return  userStartRecordService.findUserStartRecord(token);
-    }
+    public @ResponseBody UserStartRecord findUserStartRecord(@RequestParam String token){ return  userStartRecordService.findUserStartRecord(token); }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<UserStartRecord> getAllMotive(){
