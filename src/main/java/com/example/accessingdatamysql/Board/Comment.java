@@ -10,11 +10,11 @@ import java.time.LocalDate;
 public class Comment {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int userid;
+    private Integer userId;
 
-    private int postid;
+    private Integer postId;
 
     private String content;
 
@@ -24,28 +24,28 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedAt;
 
-    public void setId(int id){
+    public void setId(Integer id){
         this.id = id;
     }
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
 
-    public void setUserid(int userid){
-        this.userid = userid;
+    public void setUserId(Integer userId){
+        this.userId = userId;
     }
 
-    public int getUserid(){
-        return userid;
+    public Integer getUserId(){
+        return userId;
     }
 
-    public void setPostid(int postid){
-        this.postid = postid;
+    public void setPostId(Integer postId){
+        this.postId = postId;
     }
 
-    public int getPostid(){
-        return postid;
+    public Integer getPostId(){
+        return postId;
     }
 
     public void setContent(String content){

@@ -28,19 +28,19 @@ public class Post {
 //
 //    private int numberOfLikes = 0;
 
-    public void setId(int id){
+    public void setId(Integer id){
         this.id = id;
     }
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
 
-    public void setUserId(int userid){
-        this.userId = userid;
+    public void setUserId(Integer userId){
+        this.userId = userId;
     }
 
-    public int getUserId(){
+    public Integer getUserId(){
         return userId;
     }
 

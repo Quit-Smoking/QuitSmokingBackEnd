@@ -29,6 +29,4 @@ public class CommentRequest {
     public LocalDate getUpdatedAt(){
         return updatedAt;
     }
-
-    //userid,
 }
