@@ -2,7 +2,7 @@ package com.example.accessingdatamysql.User;
 
 import jakarta.persistence.*;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name="users")
 public class User {
     @Id
@@ -15,7 +15,6 @@ public class User {
 
     private String nickname;
 
-    private String resolution;
 
     public Integer getId() {
         return id;
@@ -49,12 +48,5 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getResolution() {
-        return resolution;
-    }
-
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
-    }
 
 }

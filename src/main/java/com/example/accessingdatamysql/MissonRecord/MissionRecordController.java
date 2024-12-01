@@ -1,6 +1,7 @@
 package com.example.accessingdatamysql.MissonRecord;
 
 import com.example.accessingdatamysql.Mission.MissionRepository;
+import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import com.example.accessingdatamysql.Mission.Mission;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/mission_record") // This means URL's start with /demo (after Application path)
@@ -31,6 +35,9 @@ public class MissionRecordController {
     @Autowired
     private MissionRecordService missionRecordService;
 
+    @Autowired
+    private MissionService missionService;
+
     @PostMapping(path="/add")
     @Operation(summary = "사용자가 미션을 완수하면 해당 미션을 db에 저장함", description = "Parameter로 token, mission, date를 받아서 db에 저장한다")// Map ONLY POST Requests
     public @ResponseBody String addMissionRecord (@RequestBody MissionRecordRequest request) {
@@ -42,5 +49,10 @@ public class MissionRecordController {
     public @ResponseBody Iterable<MissionRecord> getAllMissionRecords() {
         // This returns a JSON or XML with the users
         return missionRecordRepository.findAll();
+    }
+
+    @GetMapping(path = "/fetch")
+    public @ResponseBody List<MissionRecordsFetchResponse> fetchMissionRecords(@RequestParam String token){
+        return missionRecordService.fetchMissionRecords(token);
     }
 }

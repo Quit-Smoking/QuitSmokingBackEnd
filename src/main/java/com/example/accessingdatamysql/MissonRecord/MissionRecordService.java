@@ -1,11 +1,17 @@
 package com.example.accessingdatamysql.MissonRecord;
 
+import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.Mission.MissionRepository;
-import com.example.accessingdatamysql.Mission.MissionRequest;
+import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class MissionRecordService {
@@ -23,22 +29,76 @@ public class MissionRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
-
     public String addMissionRecord(MissionRecordRequest request){
         MissionRecord n = new MissionRecord();
 
-        String email = jwtUtil.extractEmail(request.getToken());
-        Integer user_id = userRepository.findByEmail(email).getId();
-        Integer mission_id = request.getMission().getId();
-
-        n.setUserId(user_id);
-        n.setMissionId(mission_id);
+        n.setUserId(request.getUserId());
+        n.setMissionId(request.getMissionId());
         n.setDate(request.getDate());
 
         missionRecordRepository.save(n);
         return "Saved";
     }
 
+    public void generateMissionRecords(Mission mission){
+        String week_data = mission.getWeekData();
+        LocalDate start_date = mission.getStartDate();
+        Integer user_id = mission.getUserId();
 
+        List<MissionRecord> records = new ArrayList<>();
+
+        // 56일 이후의 데이터까지 일단 저장.
+        for(int i = 0; i < 56; i++){
+            LocalDate currentDate = start_date.plusDays(i);
+            int dayOfWeek = currentDate.getDayOfWeek().getValue();
+
+            if(week_data.charAt(dayOfWeek - 1) == '1'){
+                MissionRecord record = new MissionRecord();
+                record.setDate(currentDate);
+                record.setMissionId(mission.getId());
+                record.setUserId(user_id);
+                record.setCompleted(false);
+                records.add(record);
+            }
+        }
+        missionRecordRepository.saveAll(records);
+    }
+
+    public List<MissionRecordsFetchResponse> fetchMissionRecords(String token){
+        // email -> user_id 찾기, mission을 찾고 이를 바탕으로 데이터를 넘겨준다.
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        // 리턴값.
+        List<MissionRecordsFetchResponse> response = new ArrayList<>();
+
+        // 유저가 가진 레코드들.
+        List<MissionRecord> records = getMissionRecordsByUserId(userId);
+
+        for(MissionRecord record : records){
+            MissionRecordsFetchResponse n = new MissionRecordsFetchResponse();
+            n.setId(record.getId());
+            n.setMissionId(record.getMissionId());
+            String missionName = missionRepository.findById(record.getMissionId())
+                    .map(Mission::getMission) // Mission 객체에서 Mission 이름 가져오기
+                    .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMissionId()));
+            n.setMission(missionName);
+            n.setDate(record.getDate());
+            n.setCompleted(record.getCompleted());
+
+            response.add(n);
+        }
+
+        return response;
+    }
+
+    // 특정 record를 completed 처리함.
+    public String completeMissionRecord(String token, Integer mission_record_id){
+        return null;
+    }
+
+    public List<MissionRecord> getMissionRecordsByUserId(Integer user_id){
+        return missionRecordRepository.findAllByUserId(user_id);
+    };
 
 }
