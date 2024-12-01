@@ -20,14 +20,8 @@ public class UserStartRecordController {
     }
 
     @GetMapping(path="/findUserStartRecord")
-    public ResponseEntity<UserStartRecord> findUserStartRecord(@RequestParam String token){
-        UserStartRecord record =  userStartRecordService.findUserStartRecord(token);
-
-        if(record == null){
-            return ResponseEntity.ok(null);
-        }
-
-        return ResponseEntity.ok(record);
+    public @ResponseBody UserStartRecord findUserStartRecord(@RequestParam String token){
+        return  userStartRecordService.findUserStartRecord(token);
     }
 
     @GetMapping(path="/all")
