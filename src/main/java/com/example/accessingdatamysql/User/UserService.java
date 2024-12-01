@@ -41,13 +41,12 @@ public class UserService {
     }
 
     //register
-    public void register(LoginRequest request) {
+    public void register(RegisterRequest request) {
         User n = new User();
         n.setEmail(request.getEmail());
-        n.setPassword(request.getPassword());
+        n.setPassword(passwordEncoder.encode(request.getPassword()));
         n.setNickname(request.getNickname());
 
-        n.setPassword(passwordEncoder.encode(n.getPassword()));
         userRepository.save(n);
     }
 }
