@@ -49,4 +49,13 @@ public class UserService {
 
         userRepository.save(n);
     }
+
+    public String changePassword(String token, String password){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+
+        return "password changed to " + userRepository.findByEmail(email).getPassword();
+    }
 }
