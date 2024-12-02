@@ -89,15 +89,20 @@ public class UserService {
 
     public String deleteUser(String token, String rawPassword){
         String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
 
-        userRepository.deleteById(userId);
-        userStartRecordRepository.deleteAllByUserId(userId);
-        userCessationRecordRepository.deleteAllByUserId(userId);
-        missionRepository.deleteAllByUserid(userId);
-        missionRecordRepository.deleteAllByUserId(userId);
+        if(authenticate(token, rawPassword)){
+            Integer userId = userRepository.findByEmail(email).getId();
 
-        return "deleted";
+            userRepository.deleteById(userId);
+            userStartRecordRepository.deleteAllByUserId(userId);
+            userCessationRecordRepository.deleteAllByUserId(userId);
+            missionRepository.deleteAllByUserid(userId);
+            missionRecordRepository.deleteAllByUserId(userId);
+
+            return "deleted";
+        }else{
+            return "password does not match";
+        }
     }
 
 }
