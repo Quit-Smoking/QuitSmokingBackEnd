@@ -1,6 +1,11 @@
 package com.example.accessingdatamysql.User;
 
+import com.example.accessingdatamysql.Mission.MissionRepository;
+import com.example.accessingdatamysql.MissonRecord.MissionRecordRepository;
 import com.example.accessingdatamysql.Security.JwtUtil;
+import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
+import com.example.accessingdatamysql.UserStartRecord.UserStartRecordRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,18 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserStartRecordRepository userStartRecordRepository;
+
+    @Autowired
+    private UserCessationRecordRepository userCessationRecordRepository;
+
+    @Autowired
+    private MissionRepository missionRepository;
+
+    @Autowired
+    private MissionRecordRepository missionRecordRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -71,12 +88,22 @@ public class UserService {
         return "nickname changed to " + userRepository.findByEmail(email).getNickname();
     }
 
+    @Transactional
     public String deleteUser(String token, String rawPassword){
         String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
-        userRepository.delete(user);
 
-        return "deleted";
+        if(authenticate(email, rawPassword)){
+            Integer userId = userRepository.findByEmail(email).getId();
+
+            userStartRecordRepository.deleteAllByUserId(userId);
+            userCessationRecordRepository.deleteAllByUserId(userId);
+            missionRepository.deleteAllByUserId(userId);
+            missionRecordRepository.deleteAllByUserId(userId);
+            userRepository.deleteById(userId);
+
+            return "deleted";
+        }else{
+            return "password does not match";
+        }
     }
-
 }

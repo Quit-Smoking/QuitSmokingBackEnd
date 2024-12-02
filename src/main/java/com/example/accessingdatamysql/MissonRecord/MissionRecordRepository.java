@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface MissionRecordRepository extends CrudRepository<MissionRecord, Integer> {
     List<MissionRecord> findAllByUserId(Integer userId);
+    void deleteAllByUserId(Integer userId);
 }

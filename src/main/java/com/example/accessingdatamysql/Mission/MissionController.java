@@ -17,14 +17,14 @@ public class MissionController {
     private MissionService missionService;
 
     @PostMapping(path="/add")
-    @Operation(summary="미션 생성 후 db에 저장함", description = "Parameter로 mission request (token, mission, is_deleted, is_default, week_data)를 보내면 해당 정보들을 db에 저장함")// Map ONLY POST Requests
+    @Operation(summary="미션 생성 후 db에 저장함", description = "Parameter로 정보를 보내면 해당 정보들을 db에 저장함")// Map ONLY POST Requests
     public @ResponseBody String addNewMission (@RequestBody MissionRequest request){
         return missionService.addNewMission(request);
     }
 
 
     @GetMapping(path="/all")
-    @Operation(summary = "모든 사용자들의 mission들을 불러옴", description = "mission, is_deleted, is_default, week_data를 Iterable<mission> 타입으로 리턴한다")
+    @Operation(summary = "모든 사용자들의 미션 불러옴")
     public @ResponseBody Iterable<Mission> getAllMissions() {
         return missionRepository.findAll();
     }
