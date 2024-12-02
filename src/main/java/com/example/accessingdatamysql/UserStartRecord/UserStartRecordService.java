@@ -77,10 +77,10 @@ public class UserStartRecordService {
 
         UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
 
-        userCessationRecordController.addNewUserCessationRecord(token, end_date);
+        String saved = userCessationRecordController.addNewUserCessationRecord(token, end_date);
         userStartRecordRepository.delete(user);
 
-        return "added to UserCessationRecords and got deleted";
+        return  saved + " to UserCessationRecords and got deleted from UserStartRecords";
     }
 
 }
