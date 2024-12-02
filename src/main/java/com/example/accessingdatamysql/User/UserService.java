@@ -57,4 +57,13 @@ public class UserService {
 
         return "password changed to " + userRepository.findByEmail(email).getPassword();
     }
+
+    public String deleteUser(String token, String rawPassword){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
+        userRepository.delete(user);
+
+        return "deleted";
+    }
+
 }
