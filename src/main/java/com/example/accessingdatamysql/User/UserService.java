@@ -1,7 +1,6 @@
 package com.example.accessingdatamysql.User;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,5 +47,14 @@ public class UserService {
         n.setNickname(request.getNickname());
 
         userRepository.save(n);
+    }
+
+    public String changePassword(String token, String rawPassword){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
+        user.setPassword(passwordEncoder.encode(rawPassword));
+        userRepository.save(user);
+
+        return "password changed to " + userRepository.findByEmail(email).getPassword();
     }
 }

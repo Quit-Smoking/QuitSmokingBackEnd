@@ -32,6 +32,20 @@ public class UserController {
         return "Saved";
     }
 
+    @GetMapping(path="/checkPassword")
+    @Operation(summary = "비밀번호 변경을 위한 현재 비밀번호 검증", description = "Parameter로 token과 사용자가 입력한 현재 비밀번호를 받아서 db에서 확인 후 맞으면 true, 틀리면 false를 리턴")
+    public Boolean checkPassword(@RequestParam String token, @RequestParam String password){
+        String email = jwtUtil.extractEmail(token);
+        return userService.authenticate(email, password);
+    }
+
+    @PostMapping("/changePassword")
+    @Operation(summary = "비밀번호 변경", description = "Parameter로 token과 새로운 비밀번호를 받아서 db에 있는 password를 변경")
+    public String changePassword(@RequestParam String token, @RequestParam String rawPassword){
+        return userService.changePassword(token, rawPassword);
+    }
+
+
     @GetMapping(path="/all")
     @Operation(summary = "모든 사용자 찾기", description="email, password, nickname, resolution을 Iterable<User> 타입으로 리턴한다.")
     public Iterable<User> getAllUsers() {
