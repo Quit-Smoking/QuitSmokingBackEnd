@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface UserCessationRecordRepository extends CrudRepository<UserCessationRecord, Integer> {
     List<UserCessationRecord> findAllByUserId(Integer userId);
+    void deleteAllByUserId(Integer userId);
 }

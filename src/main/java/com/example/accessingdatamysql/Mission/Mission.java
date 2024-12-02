@@ -1,10 +1,8 @@
 package com.example.accessingdatamysql.Mission;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="missions")
@@ -14,7 +12,7 @@ public class Mission {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     private String mission;
 
@@ -35,11 +33,11 @@ public class Mission {
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getMission() {

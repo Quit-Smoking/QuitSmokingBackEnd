@@ -1,6 +1,10 @@
 package com.example.accessingdatamysql.User;
 
+import com.example.accessingdatamysql.Mission.MissionRepository;
+import com.example.accessingdatamysql.MissonRecord.MissionRecordRepository;
 import com.example.accessingdatamysql.Security.JwtUtil;
+import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
+import com.example.accessingdatamysql.UserStartRecord.UserStartRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,18 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserStartRecordRepository userStartRecordRepository;
+
+    @Autowired
+    private UserCessationRecordRepository userCessationRecordRepository;
+
+    @Autowired
+    private MissionRepository missionRepository;
+
+    @Autowired
+    private MissionRecordRepository missionRecordRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -73,8 +89,13 @@ public class UserService {
 
     public String deleteUser(String token, String rawPassword){
         String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
-        userRepository.delete(user);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        userRepository.deleteById(userId);
+        userStartRecordRepository.deleteAllByUserId(userId);
+        userCessationRecordRepository.deleteAllByUserId(userId);
+        missionRepository.deleteAllByUserid(userId);
+        missionRecordRepository.deleteAllByUserId(userId);
 
         return "deleted";
     }
