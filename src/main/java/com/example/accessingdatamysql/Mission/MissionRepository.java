@@ -10,5 +10,5 @@ import java.util.List;
 // CRUD refers Create, Read, Update, Delete
 
 public interface MissionRepository extends CrudRepository<Mission, Integer> {
-    void deleteAllByUserid(Integer userId);
+    void deleteAllByUserId(Integer userId);
 }
