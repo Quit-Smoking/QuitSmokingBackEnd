@@ -1,7 +1,6 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
-import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordController;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
