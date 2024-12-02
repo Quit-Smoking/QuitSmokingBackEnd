@@ -28,8 +28,7 @@ public class UserController {
     @PostMapping("/register")
     @Operation(summary = "회원가입", description = "Parameter로 LoginRequest(email, password, nickname)을 보내면 해당 정보가 db에 저장이 된다.")
     public String register(@RequestBody RegisterRequest request) {
-        userService.register(request);
-        return "Saved";
+        return userService.register(request);
     }
 
     @GetMapping(path="/checkPassword")
@@ -45,14 +44,20 @@ public class UserController {
         return userService.changePassword(token, rawPassword);
     }
 
+    @PostMapping("/changeNickname")
+    @Operation(summary = "닉네임 변경", description = "Parameter로 token과 새로운 닉네임을 받아서 db에 있는 nickname을 변경")
+    public String changeNickname(@RequestParam String token, @RequestParam String nickname){
+        return userService.changeNickname(token, nickname);
+    }
+
     @GetMapping(path="/all")
-    @Operation(summary = "모든 사용자 찾기", description="email, password, nickname, resolution을 Iterable<User> 타입으로 리턴한다.")
+    @Operation(summary = "모든 사용자 찾기")
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @DeleteMapping(path="/delete")
-    @Operation(summary = "회원탈퇴", description = "")
+    @Operation(summary = "회원탈퇴", description = "Parameter로 token하고 비밀번호를 받아서 해당하는 회원을 삭제한다")
     public String deleteUser(@RequestParam String token, @RequestParam String rawPassword){
         return userService.deleteUser(token, rawPassword);
     }
