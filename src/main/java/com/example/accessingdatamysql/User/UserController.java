@@ -45,10 +45,15 @@ public class UserController {
         return userService.changePassword(token, rawPassword);
     }
 
-
     @GetMapping(path="/all")
     @Operation(summary = "모든 사용자 찾기", description="email, password, nickname, resolution을 Iterable<User> 타입으로 리턴한다.")
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @DeleteMapping(path="/delete")
+    @Operation(summary = "회원탈퇴", description = "")
+    public String deleteUser(@RequestParam String token, @RequestParam String rawPassword){
+        return userService.deleteUser(token, rawPassword);
     }
 }
