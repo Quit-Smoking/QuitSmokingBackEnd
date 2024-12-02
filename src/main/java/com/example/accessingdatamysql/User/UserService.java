@@ -40,22 +40,35 @@ public class UserService {
     }
 
     //register
-    public void register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
         User n = new User();
         n.setEmail(request.getEmail());
         n.setPassword(passwordEncoder.encode(request.getPassword()));
         n.setNickname(request.getNickname());
 
         userRepository.save(n);
+
+        return "saved";
     }
 
     public String changePassword(String token, String rawPassword){
         String email = jwtUtil.extractEmail(token);
         User user = userRepository.findByEmail(email);
         user.setPassword(passwordEncoder.encode(rawPassword));
+
         userRepository.save(user);
 
-        return "password changed to " + userRepository.findByEmail(email).getPassword();
+        return "password changed";
+    }
+
+    public String changeNickname(String token, String nickname){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
+        user.setNickname(nickname);
+
+        userRepository.save(user);
+
+        return "nickname changed to " + userRepository.findByEmail(email).getNickname();
     }
 
     public String deleteUser(String token, String rawPassword){

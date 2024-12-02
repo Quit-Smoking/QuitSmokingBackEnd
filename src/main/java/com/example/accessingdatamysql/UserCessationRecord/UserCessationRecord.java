@@ -12,7 +12,7 @@ public class UserCessationRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer user_id;
+    private Integer userId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
@@ -29,11 +29,11 @@ public class UserCessationRecord {
     }
 
     public Integer getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public LocalDate getStartDate() {
