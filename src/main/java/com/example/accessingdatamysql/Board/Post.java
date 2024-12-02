@@ -2,7 +2,6 @@ package com.example.accessingdatamysql.Board;
 
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 
 @Entity
@@ -70,6 +69,7 @@ public class Post {
     public void setUpdatedAt(LocalDate updatedAt){
         this.updatedAt = updatedAt;
     }
+
     public LocalDate getUpdatedAt(){
         return updatedAt;
     }

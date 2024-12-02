@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
 @Controller
 @RequestMapping(path="/post")
 public class PostController {
@@ -14,18 +13,20 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-
-    @PostMapping(path = "/add")
+    @PostMapping("/add")
     public @ResponseBody String addPost(@RequestBody PostRequest request){ return postService.addPost(request); }
 
-    @GetMapping(path="/findPostByUser")
-    public @ResponseBody Iterable<Post> findPostByUser(@RequestParam String token){
-        return postService.findPostByUser(token);
-    }
+    @GetMapping("/findPostByUser")
+    public @ResponseBody Iterable<Post> findPostByUser(@RequestParam String token){ return postService.findPostByUser(token); }
 
-    @GetMapping(path="/all")
+    @GetMapping("/all")
     public @ResponseBody Iterable<Post> findAllPost(){
         return postRepository.findAll();
+    }
+
+    @DeleteMapping("/delete")
+    public @ResponseBody String deletedByPostId(@RequestParam String token, @RequestParam Integer postId){
+        return postService.deletePost(token, postId);
     }
 
 }

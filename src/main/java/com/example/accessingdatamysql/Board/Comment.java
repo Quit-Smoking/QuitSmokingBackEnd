@@ -18,6 +18,8 @@ public class Comment {
 
     private String content;
 
+    private Integer levelOfComment;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
@@ -70,5 +72,13 @@ public class Comment {
 
     public LocalDate getUpdatedAt(){
         return updatedAt;
+    }
+
+    public Integer getLevelOfComment() {
+        return levelOfComment;
+    }
+
+    public void setLevelOfComment(Integer levelOfComment) {
+        this.levelOfComment = levelOfComment;
     }
 }

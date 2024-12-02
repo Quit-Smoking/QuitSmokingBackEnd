@@ -27,10 +27,17 @@ public class PostService {
         n.setTitle(request.getTitle());
         n.setContent(request.getContent());
         n.setCreatedAt(request.getCreatedAt());
-        n.setUpdatedAt(request.getUpdatedAt());
 
         postRepository.save(n);
         return "Saved";
+    }
+
+    public String deletePost(String token, Integer postId){
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        postRepository.deleteByPostId(userId);
+        return "Deleted";
     }
 
     public Iterable<Post> findPostByUser(String token){
@@ -39,6 +46,5 @@ public class PostService {
 
         return postRepository.findPostByUser(userId);
     }
-
 
 }
