@@ -41,8 +41,8 @@ public class UserController {
 
     @PostMapping("/changePassword")
     @Operation(summary = "비밀번호 변경", description = "Parameter로 token과 새로운 비밀번호를 받아서 db에 있는 password를 변경")
-    public String changePassword(@RequestParam String token, @RequestParam String password){
-        return userService.changePassword(token, password);
+    public String changePassword(@RequestParam String token, @RequestParam String rawPassword){
+        return userService.changePassword(token, rawPassword);
     }
 
 
