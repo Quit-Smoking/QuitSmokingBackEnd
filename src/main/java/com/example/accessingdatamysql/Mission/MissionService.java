@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,10 +46,17 @@ public class MissionService {
         return "Saved";
     }
 
+    // 미션을 불러온다. 중단된 미션은 불러오지 않는다.
     public List<Mission> getMissions(String token){
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
+        List<Mission> missions = missionRepository.findAllByUserId(userId);
 
-        return missionRepository.findAllByUserId(userId);
+        for(Mission mission : missions){
+            if(mission.isIsDeleted()){
+                missions.remove(mission);
+            }
+        }
+        return missions;
     }
 }
