@@ -5,6 +5,8 @@ import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class PostService {
 
@@ -29,22 +31,40 @@ public class PostService {
         n.setCreatedAt(request.getCreatedAt());
 
         postRepository.save(n);
+
         return "Saved";
     }
 
-    public String deletePost(String token, Integer postId){
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
+    public String updatePost(UpdatePostRequest request){
+        Post post = postRepository.findPostById(request.getId());
 
-        postRepository.deleteByPostId(userId);
-        return "Deleted";
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+
+        try{
+            postRepository.save(post);
+            return "Updated";
+        } catch(Exception e){
+            return "Update not successful : " + e.getMessage();
+        }
+    }
+
+    public String deleteByPostId(Integer id){
+        postRepository.deleteById(id);
+
+        if(postRepository.existsById(id)){
+            return "Deleted";
+        }else{
+            return "Delete failed";
+        }
     }
 
     public Iterable<Post> findPostByUser(String token){
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
 
-        return postRepository.findPostByUser(userId);
+        return postRepository.findPostByUserId(userId);
     }
+
 
 }
