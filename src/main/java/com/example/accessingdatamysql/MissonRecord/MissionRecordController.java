@@ -58,4 +58,9 @@ public class MissionRecordController {
     public @ResponseBody List<MissionRecordsFetchResponse> fetchMissionRecords(@RequestParam String token, @RequestParam LocalDate date){
         return missionRecordService.fetchMissionRecords(token, date);
     }
+
+    @GetMapping(path = "/completeMission")
+    public @ResponseBody String completeMissionRecord(@RequestParam String token, @RequestParam Integer missionRecordId){
+        return missionRecordService.completeMissionRecord(token, missionRecordId);
+    }
 }
