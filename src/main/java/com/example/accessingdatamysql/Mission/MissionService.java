@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class MissionService {
 
@@ -41,5 +43,12 @@ public class MissionService {
         missionRecordService.generateMissionRecords(n);
 
         return "Saved";
+    }
+
+    public List<Mission> getMissions(String token){
+        String email = jwtUtil.extractEmail(token);
+        Integer userId = userRepository.findByEmail(email).getId();
+
+        return missionRepository.findAllByUserId(userId);
     }
 }

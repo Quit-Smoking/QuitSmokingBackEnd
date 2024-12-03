@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller // This means that this class is a Controller
@@ -51,5 +52,10 @@ public class MissionRecordController {
     @Operation(summary = "특정 사용자의 완수된 mission 기록들을 불러옴", description = "Parameter로 token을 받아서 해당하는 사용자의 미션완료 정보들을 List 타입으로 반환함")
     public @ResponseBody List<MissionRecordsFetchResponse> fetchMissionRecords(@RequestParam String token){
         return missionRecordService.fetchMissionRecords(token);
+    }
+
+    @GetMapping(path = "/fetchByDate")
+    public @ResponseBody List<MissionRecordsFetchResponse> fetchMissionRecords(@RequestParam String token, @RequestParam LocalDate date){
+        return missionRecordService.fetchMissionRecords(token, date);
     }
 }
