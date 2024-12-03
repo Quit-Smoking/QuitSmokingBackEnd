@@ -5,12 +5,14 @@ import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class MissionRecordService {
@@ -63,41 +65,86 @@ public class MissionRecordService {
         missionRecordRepository.saveAll(records);
     }
 
+    // 유저의 전체 레코드를 리턴함.
     public List<MissionRecordsFetchResponse> fetchMissionRecords(String token){
+        // 리턴값.
+        List<MissionRecordsFetchResponse> responses = new ArrayList<>();
+
+        // 유저가 가진 레코드들.
+        List<MissionRecord> records = getMissionRecordsByToken(token);
+
+        for(MissionRecord record : records){
+            MissionRecordsFetchResponse response = addResponse(record);
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
+    // 유저의 레코드 중 date에 해당하는 값만 리턴함.
+    public List<MissionRecordsFetchResponse> fetchMissionRecords(String token, LocalDate date){
+        List<MissionRecordsFetchResponse> responses = new ArrayList<>();
+
+        // 유저가 가진 레코드들.
+        List<MissionRecord> records = getMissionRecordsByToken(token);
+
+        for(MissionRecord record : records){
+            if(record.getDate().isEqual(date)) {
+                MissionRecordsFetchResponse response = addResponse(record);
+
+                responses.add(response);
+            }
+        }
+
+        return responses;
+    }
+
+
+    // 토큰에 해당하는 유저의 모든 record들을 가져옴.
+    private List<MissionRecord> getMissionRecordsByToken(String token){
         // email -> user_id 찾기, mission을 찾고 이를 바탕으로 데이터를 넘겨준다.
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
 
-        // 리턴값.
-        List<MissionRecordsFetchResponse> response = new ArrayList<>();
+        return getMissionRecordsByUserId(userId);
+    }
 
-        // 유저가 가진 레코드들.
-        List<MissionRecord> records = getMissionRecordsByUserId(userId);
-
-        for(MissionRecord record : records){
-            MissionRecordsFetchResponse n = new MissionRecordsFetchResponse();
-            n.setId(record.getId());
-            n.setMissionId(record.getMissionId());
-            String missionName = missionRepository.findById(record.getMissionId())
-                    .map(Mission::getMission) // Mission 객체에서 Mission 이름 가져오기
-                    .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMissionId()));
-            n.setMission(missionName);
-            n.setDate(record.getDate());
-            n.setCompleted(record.getCompleted());
-
-            response.add(n);
-        }
+    // record 안에 있는 값으로 MissionRecord를 생성.
+    private MissionRecordsFetchResponse addResponse(MissionRecord record){
+        MissionRecordsFetchResponse response = new MissionRecordsFetchResponse();
+        response.setId(record.getId());
+        response.setMissionId(record.getMissionId());
+        String missionName = missionRepository.findById(record.getMissionId())
+                .map(Mission::getMission) // Mission 객체에서 Mission 이름 가져오기
+                .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMissionId()));
+        response.setMission(missionName);
+        response.setDate(record.getDate());
+        response.setCompleted(record.getCompleted());
 
         return response;
     }
 
     // 특정 record를 completed 처리함.
-    public String completeMissionRecord(String token, Integer mission_record_id){
-        return null;
+    public String completeMissionRecord(String token, Integer missionRecordId){
+        Optional<MissionRecord> optionalRecord = missionRecordRepository.findById(missionRecordId);
+
+        if(optionalRecord.isPresent()){
+            MissionRecord record = optionalRecord.get();
+            record.setCompleted(true);
+            missionRecordRepository.save(record);
+        }
+        else{
+            throw new RuntimeException("Mission record를 찾을 수 없음.");
+        }
+        return "Saved";
     }
+
 
     public List<MissionRecord> getMissionRecordsByUserId(Integer user_id){
         return missionRecordRepository.findAllByUserId(user_id);
     };
+
+
 
 }
