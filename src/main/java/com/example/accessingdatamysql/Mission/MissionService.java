@@ -52,7 +52,7 @@ public class MissionService {
 
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            return e.getMessage();
         }
 
     }
@@ -75,7 +75,7 @@ public class MissionService {
 
             return missionResponses;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("에러 발생!");
         }
     }
 
@@ -92,7 +92,7 @@ public class MissionService {
             return "Deleted";
         }
         else{
-            throw new RuntimeException("Mission not found!");
+            return "해당 미션이 없음.";
         }
     }
 }

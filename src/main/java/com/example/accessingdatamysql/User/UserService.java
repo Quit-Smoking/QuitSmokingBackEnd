@@ -58,14 +58,20 @@ public class UserService {
 
     //register
     public String register(RegisterRequest request) {
-        User n = new User();
-        n.setEmail(request.getEmail());
-        n.setPassword(passwordEncoder.encode(request.getPassword()));
-        n.setNickname(request.getNickname());
+        // 만약 같은 이메일을 가진 사용자가 있다면 에러 발생.
+        if(userRepository.findByEmail(request.getEmail()) != null){
+            return "동일한 이메일을 가진 사용자 존재.";
+        }
+        else{
+            User n = new User();
+            n.setEmail(request.getEmail());
+            n.setPassword(passwordEncoder.encode(request.getPassword()));
+            n.setNickname(request.getNickname());
 
-        userRepository.save(n);
+            userRepository.save(n);
 
-        return "saved";
+            return "saved";
+        }
     }
 
     public String changePassword(String token, String rawPassword){
@@ -102,7 +108,8 @@ public class UserService {
             userRepository.deleteById(userId);
 
             return "deleted";
-        }else{
+        }
+        else{
             return "password does not match";
         }
     }
