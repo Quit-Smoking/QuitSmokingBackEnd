@@ -13,4 +13,5 @@ public class MissionRecordRequest {
     public LocalDate getDate(){
         return date;
     }
+
 }

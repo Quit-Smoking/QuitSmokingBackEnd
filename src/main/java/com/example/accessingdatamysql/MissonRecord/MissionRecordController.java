@@ -3,12 +3,13 @@ package com.example.accessingdatamysql.MissonRecord;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
+
 import com.example.accessingdatamysql.User.UserRepository;
+
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,9 +23,6 @@ public class MissionRecordController {
 
     @Autowired
     private MissionRepository missionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;

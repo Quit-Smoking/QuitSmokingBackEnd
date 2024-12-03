@@ -1,6 +1,8 @@
 package com.example.accessingdatamysql.Mission;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,6 +18,7 @@ public class Mission {
 
     private String mission;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
 
     @Column(name = "is_deleted")
