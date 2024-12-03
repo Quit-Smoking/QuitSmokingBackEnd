@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class MissionRecordService {
@@ -126,12 +127,25 @@ public class MissionRecordService {
     }
 
     // 특정 record를 completed 처리함.
-    public String completeMissionRecord(String token, Integer mission_record_id){
-        return null;
+    public String completeMissionRecord(String token, Integer missionRecordId){
+        Optional<MissionRecord> optionalRecord = missionRecordRepository.findById(missionRecordId);
+
+        if(optionalRecord.isPresent()){
+            MissionRecord record = optionalRecord.get();
+            record.setCompleted(true);
+            missionRecordRepository.save(record);
+        }
+        else{
+            throw new RuntimeException("Mission record를 찾을 수 없음.");
+        }
+        return "Saved";
     }
+
 
     public List<MissionRecord> getMissionRecordsByUserId(Integer user_id){
         return missionRecordRepository.findAllByUserId(user_id);
     };
+
+
 
 }
