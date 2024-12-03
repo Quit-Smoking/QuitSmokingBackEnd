@@ -25,8 +25,15 @@ public class MissionController {
     }
 
     @GetMapping(path = "/getMissions")
+    @Operation(summary = "사용자의 미션들을 보여준다.", description = "삭제되지 않은 미션을 보여준다.")
     public @ResponseBody List<Mission> getMissions(@RequestParam String token){
         return missionService.getMissions(token);
+    }
+
+    @PostMapping(path = "/deleteMission")
+    @Operation(summary = "사용자의 미션을 삭제한다.", description = "Db 상에서는 삭제되지 않지만, 사용자의 미션 패널에는 보이지 않게 된다.")
+    public @ResponseBody String deleteMission(@RequestParam String token, @RequestParam Integer missionId){
+        return missionService.deleteMission(token, missionId);
     }
 
     @GetMapping(path="/all")
