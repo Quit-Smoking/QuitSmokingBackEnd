@@ -18,11 +18,14 @@ public class Mission {
 
     private LocalDate start_date;
 
-    private boolean is_deleted;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
-    private boolean is_default;
+    @Column(name = "is_default")
+    private boolean isDefault;
 
-    private String week_data;
+    @Column(name = "week_data")
+    private String weekData;
 
     public Integer getId() {
         return id;
@@ -48,28 +51,28 @@ public class Mission {
         this.mission = mission;
     }
 
-    public boolean isIsDeleted() {
-        return is_deleted;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
     public void setIsDeleted(boolean is_deleted) {
-        this.is_deleted = is_deleted;
+        this.isDeleted = is_deleted;
     }
 
-    public boolean isIsDefault() {
-        return is_default;
+    public boolean getIsDefault() {
+        return isDefault;
     }
 
     public void setIsDefault(boolean is_default) {
-        this.is_default = is_default;
+        this.isDefault = is_default;
     }
 
     public String getWeekData() {
-        return week_data;
+        return weekData;
     }
 
     public void setWeekData(String week_data) {
-        this.week_data = week_data;
+        this.weekData = week_data;
     }
 
     public LocalDate getStartDate() {

@@ -3,12 +3,13 @@ package com.example.accessingdatamysql.Mission;
 import com.example.accessingdatamysql.MissonRecord.MissionRecordService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
+import com.example.accessingdatamysql.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MissionService {
@@ -23,59 +24,75 @@ public class MissionService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MissionRecordService missionRecordService;
 
-
+    // 새로운 미션을 추가한다.
     public String addNewMission(MissionRequest request){
-        Mission n = new Mission();
+        Mission mission = new Mission();
 
-        String email = jwtUtil.extractEmail(request.getToken());
-        Integer userId = userRepository.findByEmail(email).getId();
+        try{
+            String email = jwtUtil.extractEmail(request.getToken());
+            Integer userId = userService.findByEmail(email).getId();
 
-        n.setUserId(userId);
-        n.setMission(request.getMission());
-        n.setStartDate(request.getStart_date());
-        n.setIsDeleted(request.getIs_deleted());
-        n.setIsDefault(request.getIs_default());
-        n.setWeekData(request.getWeek_data());
+            mission.setUserId(userId);
+            mission.setMission(request.getMission());
+            mission.setStartDate(request.getStart_date());
+            mission.setIsDeleted(request.getIs_deleted());
+            mission.setIsDefault(request.getIs_default());
+            mission.setWeekData(request.getWeek_data());
 
-        missionRepository.save(n);
+            missionRepository.save(mission);
 
-        missionRecordService.generateMissionRecords(n);
+            // 해당 미션에 대한 records들을 생성.
+            missionRecordService.generateMissionRecords(mission);
+            return "Saved";
 
-        return "Saved";
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
+
     }
 
-    // 미션을 불러온다. 중단된 미션은 불러오지 않는다.
-    public List<Mission> getMissions(String token){
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
-        List<Mission> missions = missionRepository.findAllByUserId(userId);
 
-        for(Mission mission : missions){
-            if(mission.isIsDeleted()){
-                missions.remove(mission);
+    // 미션을 불러온다. 중단된 미션은 불러오지 않는다.
+    public List<MissionResponse> getMissions(String token){
+        try{
+            String email = jwtUtil.extractEmail(token);
+            Integer userId = userRepository.findByEmail(email).getId();
+            List<Mission> missions = missionRepository.findAllByUserId(userId);
+
+            missions.removeIf(Mission::getIsDeleted);
+
+            List<MissionResponse> missionResponses = new ArrayList<>();
+            for(Mission mission : missions){
+                MissionResponse response = new MissionResponse(mission.getId(), mission.getMission(),mission.getStartDate(), mission.getIsDefault(), mission.getWeekData());
+                missionResponses.add(response);
             }
+
+            return missionResponses;
+        } catch (Exception e) {
+            throw new RuntimeException("에러 발생!");
         }
-        return missions;
     }
 
     // 미션을 삭제한다.
-    public String deleteMission(String token, Integer missionId){
+    public String deleteMission(Integer missionId){
+
         // 해당 미션
-        try{
-            Mission mission = findMissionById(missionId);
+        Optional<Mission> missionOptional = missionRepository.findById(missionId);
+
+        if(missionOptional.isPresent()){
+            Mission mission = missionOptional.get();
             mission.setIsDeleted(true);
-
             missionRepository.save(mission);
+            return "Deleted";
         }
-        catch (Exception e){
-            return e.getMessage();
+        else{
+            return "해당 미션이 없음.";
         }
-        return "Saved";
-    }
-
-    public Mission findMissionById(Integer id){
-        return missionRepository.findMissionById(id);
     }
 }

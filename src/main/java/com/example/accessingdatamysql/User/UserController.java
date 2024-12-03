@@ -61,4 +61,18 @@ public class UserController {
     public String deleteUser(@RequestParam String token, @RequestParam String rawPassword){
         return userService.deleteUser(token, rawPassword);
     }
+
+    @GetMapping(path = "/getEmail")
+    @Operation(summary = "이메일을 리턴.")
+    public String getEmail(@RequestParam String token){
+        return jwtUtil.extractEmail(token);
+    }
+
+    @GetMapping(path = "/getNickname")
+    @Operation(summary = "닉네임을 리턴.")
+    public String getNickname(@RequestParam String token){
+        String email = getEmail(token);
+        User user = userService.findByEmail(email);
+        return user.getNickname();
+    }
 }
