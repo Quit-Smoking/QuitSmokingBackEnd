@@ -15,7 +15,6 @@ public class User {
 
     private String nickname;
 
-
     public Integer getId() {
         return id;
     }

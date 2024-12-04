@@ -20,20 +20,20 @@ public class NicotinDependenciesController {
 
     @PostMapping("/add")
     @Operation(summary = "니코틴 기록을 저장한다.", description = "니코틴 기록을 저장할 때 이미 기록이 존재한다면 원래의 기록을 수정한다.")
-    public @ResponseBody String addNicotinDependencies(@RequestParam String token, @RequestBody NicotinDependenciesRequest request)
+    public String addNicotinDependencies(@RequestParam String token, @RequestBody NicotinDependenciesRequest request)
     {
         return nicotinDependenciesService.addNicotinDependencies(token, request);
     }
 
     @GetMapping("/getScore")
     @Operation(summary = "의존도 검사 결과 점수를 리턴.")
-    public @ResponseBody Integer getNicotinDependenciesScore(@RequestParam String token)
+    public Integer getNicotinDependenciesScore(@RequestParam String token)
     {
         return nicotinDependenciesService.getNicotinDependenciesScore(token);
     }
 
     @GetMapping("/getAll")
-    public @ResponseBody Iterable<NicotinDependencies> getAll(){
+    public Iterable<NicotinDependencies> getAll(){
         return nicotinDependenciesRepository.findAll();
     }
 

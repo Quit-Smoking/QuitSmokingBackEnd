@@ -2,8 +2,10 @@ package com.example.accessingdatamysql.UserStartRecord;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
+import com.example.accessingdatamysql.User.UserService;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordController;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
+import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ public class UserStartRecordService {
     private UserStartRecordRepository userStartRecordRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
@@ -26,16 +28,18 @@ public class UserStartRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private UserCessationRecordService userCessationRecordService;
+
     //한 회원이 이미 금연중인것에 확인이 되면 새로 데이터를 생성하지 않는다
     public String addNewUserStartRecord(UserStartRecordRequest request){
         UserStartRecord n = new UserStartRecord();
 
-        String email = jwtUtil.extractEmail(request.getToken());
-        Integer userId = userRepository.findByEmail(email).getId();
+        Integer userId = userService.findByToken(request.getToken()).getId();
 
-        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
+        UserStartRecord userRecord = findRecordByUserId(userId);
 
-        if(user == null){
+        if(userRecord == null){
             n.setUserId(userId);
             n.setNumbersSmoked(request.getNumbersSmoked());
             n.setMotive(request.getMotive());
@@ -45,42 +49,45 @@ public class UserStartRecordService {
 
             return "Saved";
         }else{
-
-            return "Quit-smoking data for user already exists";
+            return "Quit-smoking data for userRecord already exists";
         }
     }
 
     public String changeResolution(String token, String resolution){
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
-        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
-        user.setResolution(resolution);
+        Integer userId = userService.findByToken(token).getId();
+        UserStartRecord userRecord = findRecordByUserId(userId);
+        userRecord.setResolution(resolution);
 
-        userStartRecordRepository.save(user);
+        userStartRecordRepository.save(userRecord);
 
         return "resolution changed";
     }
     
     public UserStartRecord findUserStartRecord(String token){
+        Integer userId = userService.findByToken(token).getId();
 
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
-
-        return userStartRecordRepository.findRecordByUserId(userId);
+        return findRecordByUserId(userId);
 
     }
 
     //금연을 중단했을 시 금연기록으로 더해지고 현재 진행중인 금연기록이 삭제된다 --> 금연을 재시작할 수 있는 상태가 됨
-    public String stopQuitting(String token, LocalDate end_date){
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
+    public String stopQuitting(String token, LocalDate endDate){
+        Integer userId = userService.findByToken(token).getId();
 
-        UserStartRecord user = userStartRecordRepository.findRecordByUserId(userId);
+        UserStartRecord userRecord = findRecordByUserId(userId);
 
-        String saved = userCessationRecordController.addNewUserCessationRecord(token, end_date);
-        userStartRecordRepository.delete(user);
+        String saved = userCessationRecordService.addNewUserCessationRecord(token, endDate);
+        userStartRecordRepository.delete(userRecord);
 
         return  saved + " to UserCessationRecords and got deleted from UserStartRecords";
+    }
+
+    public UserStartRecord findRecordByUserId(Integer userId){
+        return userStartRecordRepository.findRecordByUserId(userId);
+    }
+
+    public void deleteAllByUserId(Integer userId){
+        userStartRecordRepository.deleteAllByUserId(userId);
     }
 
 }
