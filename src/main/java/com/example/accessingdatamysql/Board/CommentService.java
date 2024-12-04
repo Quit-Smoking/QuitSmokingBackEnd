@@ -20,25 +20,31 @@ public class CommentService {
     private UserRepository userRepository;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     public String addComment(CommentRequest request){
         String email = jwtUtil.extractEmail(request.getToken());
         Integer userId = userRepository.findByEmail(email).getId();
 
-        Comment comment = new Comment();
+        if(postRepository.existsById(request.getPostId())){
+            Comment comment = new Comment();
 
-        comment.setUserId(userId);
-        comment.setPostId(request.getPostId());
-        comment.setParentCommentId(request.getParentCommentId());
-        comment.setContent(request.getContent());
-        comment.setCreatedAt(LocalDate.now());
-
-        try{
-            commentRepository.save(comment);
-            return "Saved";
-        } catch (Exception e){
-            return "Failed to save : " + e.getMessage();
+            comment.setUserId(userId);
+            comment.setPostId(request.getPostId());
+            comment.setParentCommentId(request.getParentCommentId());
+            comment.setContent(request.getContent());
+            comment.setCreatedAt(LocalDate.now());
+            try{
+                commentRepository.save(comment);
+                return "Saved";
+            }catch (Exception e){
+                return "failed to save : " + e.getMessage();
+            }
+        }else{
+            return "The post does not exist";
         }
     }
 
