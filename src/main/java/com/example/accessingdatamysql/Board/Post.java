@@ -20,9 +20,6 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate updatedAt;
-
     private int numberOfComment = 0;
 
     private int numberOfLikes = 0;
@@ -65,14 +62,6 @@ public class Post {
 
     public LocalDate getCreatedAt(){
         return createdAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt){
-        this.updatedAt = updatedAt;
-    }
-
-    public LocalDate getUpdatedAt(){
-        return updatedAt;
     }
 
     public void setNumberOfComment(){

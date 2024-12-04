@@ -8,7 +8,6 @@ public class PostRequest {
     private String title;
     private String content;
     private LocalDate createdAt;
-    private LocalDate updatedAt;
 
     public String getToken(){
         return token;
@@ -26,7 +25,4 @@ public class PostRequest {
         return createdAt;
     }
 
-    public LocalDate getUpdatedAt(){
-        return updatedAt;
-    }
 }

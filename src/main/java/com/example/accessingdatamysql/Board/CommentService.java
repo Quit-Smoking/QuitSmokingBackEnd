@@ -47,6 +47,7 @@ public class CommentService {
         User user = userRepository.findByEmail(email);
 
         Comment comment = findById(id);
+
         if(comment == null){
             return "The comment does not exist";
         }

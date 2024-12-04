@@ -24,8 +24,6 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate updatedAt;
 
     public void setId(Integer id){
         this.id = id;
@@ -67,19 +65,11 @@ public class Comment {
         return createdAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt){
-        this.updatedAt = updatedAt;
-    }
-
-    public LocalDate getUpdatedAt(){
-        return updatedAt;
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
     }
 
     public Integer getParentCommentId() {
         return parentCommentId;
-    }
-
-    public void setParentCommentId(Integer parentCommentId) {
-        this.parentCommentId = parentCommentId;
     }
 }

@@ -50,7 +50,7 @@ public class PostService {
         Post post = findById(request.getId());
 
         if(post == null){
-            return "The post does not exist";
+            return "The post you want to update, does not exist";
         }
 
         if(Objects.equals(user.getId(), findById(request.getId()).getUserId())){
@@ -72,13 +72,25 @@ public class PostService {
 
     }
 
-    public String deleteById(Integer id){
-        postRepository.deleteById(id);
+    public String deleteById(String token, Integer id){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
 
-        if(postRepository.existsById(id)){
-            return "Deleted";
+        Post post = findById(id);
+
+        if(post == null){
+            return "The post you want to delete, does not exist";
+        }
+
+        if(Objects.equals(user.getId(), findById(id).getUserId())){
+            try{
+                postRepository.deleteById(id);
+                return "Deleted";
+            }catch (Exception e){
+                return "Failed to Delete : " + e.getMessage();
+            }
         }else{
-            return "Delete failed";
+            return "You cannot delete someone else's post";
         }
     }
 

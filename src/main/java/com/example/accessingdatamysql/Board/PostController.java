@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Controller
 @RequestMapping(path="/post")
 public class PostController {
@@ -33,7 +31,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete")
-    public @ResponseBody String deletedById(@RequestParam Integer id){
-        return postService.deleteById(id);
+    public @ResponseBody String deletedById(@RequestParam String token, @RequestParam Integer id){
+        return postService.deleteById(token, id);
     }
 }
