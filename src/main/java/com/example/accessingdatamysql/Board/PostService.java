@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -36,7 +37,8 @@ public class PostService {
     }
 
     public String updatePost(UpdatePostRequest request){
-        Post post = postRepository.findPostById(request.getId());
+
+        Post post = findById(request.getId());
 
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
@@ -49,8 +51,8 @@ public class PostService {
         }
     }
 
-    public String deleteByPostId(Integer id){
-        postRepository.deleteById(id);
+    public String deleteById(Integer id){
+        postRepository.deletePostById(id);
 
         if(postRepository.existsById(id)){
             return "Deleted";
@@ -59,12 +61,16 @@ public class PostService {
         }
     }
 
-    public Iterable<Post> findPostByUser(String token){
+    public Iterable<Post> findByUserId(String token){
         String email = jwtUtil.extractEmail(token);
         Integer userId = userRepository.findByEmail(email).getId();
 
         return postRepository.findPostByUserId(userId);
     }
 
-
+    //CrudRepository 인터페이스의 내장 함수 findById를 이용해 Optional<Post>를 리턴하고 만약 객체가 존재하지 않으면 Exception 메시지
+    public Post findById(Integer id){
+        Optional<Post> postOptional = postRepository.findById(id);
+        return postOptional.orElse(null);
+    }
 }
