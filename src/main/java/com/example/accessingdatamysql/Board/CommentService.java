@@ -46,18 +46,23 @@ public class CommentService {
         String email = jwtUtil.extractEmail(token);
         User user = userRepository.findByEmail(email);
 
-        Comment comment = new Comment();
+        Comment comment = findById(id);
+        if(comment == null){
+            return "The comment does not exist";
+        }
 
         if(Objects.equals(user.getId(), findById(id).getUserId())){
 
             comment.setContent(content);
+            comment.setCreatedAt(LocalDate.now());
+
             try{
                 commentRepository.save(comment);
                 return "Saved";
             }catch(Exception e){
                 return "Save Failed : " + e.getMessage();
             }
-        }else{
+        }else {
             return "You can't change someone else's comment";
         }
     }

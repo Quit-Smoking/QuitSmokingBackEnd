@@ -19,7 +19,7 @@ public class PostController {
     public @ResponseBody String addPost(@RequestBody PostRequest request){ return postService.addPost(request); }
 
     @PostMapping("/update")
-    public @ResponseBody String updatePost(@RequestBody UpdatePostRequest request){ return postService.updatePost(request); }
+    public @ResponseBody String updatePost(@RequestParam String token, @RequestBody UpdatePostRequest request){ return postService.updatePost(token, request); }
 
     @GetMapping("/findByUser")
     public @ResponseBody Iterable<Post> findByUserId(@RequestParam String token){ return postService.findByUserId(token); }

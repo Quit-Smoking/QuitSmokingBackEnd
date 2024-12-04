@@ -1,10 +1,13 @@
 package com.example.accessingdatamysql.Board;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
+import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -30,24 +33,43 @@ public class PostService {
         n.setContent(request.getContent());
         n.setCreatedAt(request.getCreatedAt());
 
-        postRepository.save(n);
+        try{
+            postRepository.save(n);
+            return "Saved";
+        }catch(Exception e){
+            return "Failed to save : " + e.getMessage();
+        }
 
-        return "Saved";
+
     }
 
-    public String updatePost(UpdatePostRequest request){
+    public String updatePost(String token, UpdatePostRequest request){
+        String email = jwtUtil.extractEmail(token);
+        User user = userRepository.findByEmail(email);
 
         Post post = findById(request.getId());
 
-        post.setTitle(request.getTitle());
-        post.setContent(request.getContent());
-
-        try{
-            postRepository.save(post);
-            return "Updated";
-        } catch(Exception e){
-            return "Update not successful : " + e.getMessage();
+        if(post == null){
+            return "The post does not exist";
         }
+
+        if(Objects.equals(user.getId(), findById(request.getId()).getUserId())){
+
+            post.setTitle(request.getTitle());
+            post.setContent(request.getContent());
+            post.setCreatedAt(LocalDate.now());
+
+            try{
+                postRepository.save(post);
+                return "Updated";
+
+            }catch(Exception e){
+                return "Update failed : " + e.getMessage();
+            }
+        }else{
+            return "You can't change someone else's post";
+        }
+
     }
 
     public String deleteById(Integer id){
