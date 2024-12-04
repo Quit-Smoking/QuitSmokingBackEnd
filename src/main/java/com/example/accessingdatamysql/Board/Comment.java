@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Comment")
@@ -16,9 +17,9 @@ public class Comment {
 
     private Integer postId;
 
-    private String content;
+    private Integer parentCommentId = null;
 
-    private Integer levelOfComment;
+    private String content;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
@@ -74,11 +75,11 @@ public class Comment {
         return updatedAt;
     }
 
-    public Integer getLevelOfComment() {
-        return levelOfComment;
+    public Integer getParentCommentId() {
+        return parentCommentId;
     }
 
-    public void setLevelOfComment(Integer levelOfComment) {
-        this.levelOfComment = levelOfComment;
+    public void setParentCommentId(Integer parentCommentId) {
+        this.parentCommentId = parentCommentId;
     }
 }
