@@ -21,9 +21,10 @@ public class NicotinDependenciesService {
             User user = userService.findByToken(token);
 
             // 이미 기록이 있는지?
-            NicotinDependencies dependencies = findByUserId(user.getId());
-            if(dependencies == null){
-                dependencies = new NicotinDependencies();
+            NicotinDependencies dependencies = new NicotinDependencies();
+
+            if(isTested(user)){
+                dependencies = findByUserId(user.getId());
             }
 
             dependencies.setUserId(user.getId());
@@ -112,6 +113,18 @@ public class NicotinDependenciesService {
         }
 
         return score;
+    }
+
+    public boolean isTested(User user){
+        // 이미 기록이 있는지?
+        NicotinDependencies dependencies = findByUserId(user.getId());
+        return dependencies != null;
+    }
+
+    public boolean isTested(String token){
+        // 이미 기록이 있는지?
+        NicotinDependencies dependencies = findByUserId(userService.findByToken(token).getId());
+        return dependencies != null;
     }
 
     public NicotinDependencies findByUserId(Integer userId){
