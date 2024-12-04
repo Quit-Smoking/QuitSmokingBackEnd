@@ -65,9 +65,9 @@ public class CommentService {
 
             try{
                 commentRepository.save(comment);
-                return "Saved";
+                return "Updated";
             }catch(Exception e){
-                return "Save Failed : " + e.getMessage();
+                return "Update failed : " + e.getMessage();
             }
         }else {
             return "You can't change someone else's comment";
@@ -106,4 +106,6 @@ public class CommentService {
     public Iterable<Comment> findCommentByPostId(Integer postId){
         return commentRepository.findCommentByPostId(postId);
     }
+
+
 }
