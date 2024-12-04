@@ -25,11 +25,11 @@ public class NicotinDependenciesController {
         return nicotinDependenciesService.addNicotinDependencies(token, request);
     }
 
-//    @GetMapping("/get")
-//    public @ResponseBody NicotinDependenciesRequest getNicotinDependencies(@RequestParam String token)
-//    {
-//
-//    }
+    @GetMapping("/getScore")
+    public @ResponseBody Integer getNicotinDependenciesScore(@RequestParam String token)
+    {
+        return nicotinDependenciesService.getNicotinDependenciesScore(token);
+    }
 
     @GetMapping("/getAll")
     public @ResponseBody Iterable<NicotinDependencies> getAll(){
