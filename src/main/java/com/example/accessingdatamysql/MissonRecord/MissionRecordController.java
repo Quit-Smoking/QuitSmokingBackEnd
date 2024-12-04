@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.MissonRecord;
 
+import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Mission.MissionService;
 import com.example.accessingdatamysql.Security.JwtUtil;
