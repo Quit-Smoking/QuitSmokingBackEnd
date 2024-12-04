@@ -73,7 +73,7 @@ public class PostService {
     }
 
     public String deleteById(Integer id){
-        postRepository.deletePostById(id);
+        postRepository.deleteById(id);
 
         if(postRepository.existsById(id)){
             return "Deleted";
