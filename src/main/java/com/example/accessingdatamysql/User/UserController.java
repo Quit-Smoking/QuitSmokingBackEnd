@@ -31,6 +31,12 @@ public class UserController {
         return userService.register(request);
     }
 
+    @GetMapping("/isUniqueEmail")
+    @Operation(summary = "이메일 중복 검사")
+    public boolean isUniqueEmail(String email){
+        return userService.isUniqueUserEmail(email);
+    }
+
     @GetMapping(path="/checkPassword")
     @Operation(summary = "비밀번호 변경을 위한 현재 비밀번호 검증", description = "Parameter로 token과 사용자가 입력한 현재 비밀번호를 받아서 db에서 확인 후 맞으면 true, 틀리면 false를 리턴")
     public Boolean checkPassword(@RequestParam String token, @RequestParam String password){

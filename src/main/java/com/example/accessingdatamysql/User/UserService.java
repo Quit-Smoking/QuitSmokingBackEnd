@@ -72,20 +72,27 @@ public class UserService {
 
     //register
     public String register(RegisterRequest request) {
-        // 만약 같은 이메일을 가진 사용자가 있다면 에러 발생.
-        if(userRepository.findByEmail(request.getEmail()) != null){
+        // 만약 같은 이메일을 가진 사용자가 있다면 메시지 출력.
+        if(!isUniqueUserEmail(request.getEmail())){
             return "동일한 이메일을 가진 사용자 존재.";
         }
-        else{
-            User n = new User();
-            n.setEmail(request.getEmail());
-            n.setPassword(passwordEncoder.encode(request.getPassword()));
-            n.setNickname(request.getNickname());
+        else if(EmailPasswordValidator.isValidEmail(request.getEmail())){
+            User user = new User();
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setNickname(request.getNickname());
 
-            userRepository.save(n);
+            userRepository.save(user);
 
             return "saved";
         }
+        else{
+            return "형식이 잘못되었습니다.";
+        }
+    }
+
+    public boolean isUniqueUserEmail(String email){
+        return userRepository.findByEmail(email) == null;
     }
 
     public String changePassword(String token, String rawPassword){
