@@ -5,28 +5,19 @@ import java.time.LocalDate;
 public class CommentRequest {
 
     private String token;
-    private Post post;
+    private Integer postId;
+    private Integer parentCommentId;
     private String content;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
 
     public String getToken(){
         return token;
     }
 
-    public Post getPost(){
-        return post;
-    }
+    public Integer getPostId(){ return postId; }
+
+    public Integer getParentCommentId(){ return parentCommentId; }
 
     public String getContent(){
         return content;
-    }
-
-    public LocalDate getCreatedAt(){
-        return createdAt;
-    }
-
-    public LocalDate getUpdatedAt(){
-        return updatedAt;
     }
 }
