@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping(path="/post")
 public class PostController {
@@ -19,8 +21,11 @@ public class PostController {
     @PostMapping("/update")
     public @ResponseBody String updatePost(@RequestBody UpdatePostRequest request){ return postService.updatePost(request); }
 
-    @GetMapping("/findPostByUser")
-    public @ResponseBody Iterable<Post> findPostByUser(@RequestParam String token){ return postService.findPostByUser(token); }
+    @GetMapping("/findByUser")
+    public @ResponseBody Iterable<Post> findByUserId(@RequestParam String token){ return postService.findByUserId(token); }
+
+    @GetMapping("/findByPostId")
+    public @ResponseBody Post findById(@RequestParam Integer id){ return postService.findById(id); }
 
     @GetMapping("/all")
     public @ResponseBody Iterable<Post> findAllPost(){
@@ -28,7 +33,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete")
-    public @ResponseBody String deletedByPostId(@RequestParam Integer id){
-        return postService.deleteByPostId(id);
+    public @ResponseBody String deletedById(@RequestParam Integer id){
+        return postService.deleteById(id);
     }
 }
