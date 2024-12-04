@@ -37,6 +37,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    // 토큰으로 바로 사용자를 찾음.
+    public User findByToken(String token){
+        return findByEmail(jwtUtil.extractEmail(token));
+    }
+
     // repository에서 User를 찾고, password와 매치한다면 True를 리턴한다.
     public boolean authenticate(String email, String rawPassword) {
         User user = userRepository.findByEmail(email);
@@ -75,8 +80,7 @@ public class UserService {
     }
 
     public String changePassword(String token, String rawPassword){
-        String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
+        User user = findByToken(token);
         user.setPassword(passwordEncoder.encode(rawPassword));
 
         userRepository.save(user);
@@ -85,13 +89,12 @@ public class UserService {
     }
 
     public String changeNickname(String token, String nickname){
-        String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
+        User user = findByToken(token);
         user.setNickname(nickname);
 
         userRepository.save(user);
 
-        return "nickname changed to " + userRepository.findByEmail(email).getNickname();
+        return "nickname changed to " + user.getNickname();
     }
 
     @Transactional
