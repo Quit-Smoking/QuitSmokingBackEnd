@@ -3,6 +3,7 @@ package com.example.accessingdatamysql.Board;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "Post")
@@ -23,9 +24,9 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedAt;
 
-//    private int numberOfComment = 0;
-//
-//    private int numberOfLikes = 0;
+    private int numberOfComment = 0;
+
+    private int numberOfLikes = 0;
 
     public void setId(Integer id){
         this.id = id;
@@ -73,20 +74,21 @@ public class Post {
     public LocalDate getUpdatedAt(){
         return updatedAt;
     }
-//
-//    public void setNumberOfComment(){
-//        numberOfComment++;
-//    }
-//
-//    public int getNumberOfComment(){
-//        return numberOfComment;
-//    }
-//
-//    public void setNumberOfLikes(){
-//        numberOfLikes++;
-//    }
-//
-//    public int getNumberOfLikes(){
-//        return numberOfLikes;
-//    }
+
+    public void setNumberOfComment(){
+        numberOfComment++;
+    }
+
+    public int getNumberOfComment(){
+        return numberOfComment;
+    }
+
+    public void setNumberOfLikes(){
+        numberOfLikes++;
+    }
+
+    public int getNumberOfLikes(){
+        return numberOfLikes;
+    }
+
 }
