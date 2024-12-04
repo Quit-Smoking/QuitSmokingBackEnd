@@ -17,7 +17,7 @@ public class Comment {
 
     private Integer postId;
 
-    private Integer parentCommentId = null;
+    private Integer parentCommentId = 0;
 
     private String content;
 

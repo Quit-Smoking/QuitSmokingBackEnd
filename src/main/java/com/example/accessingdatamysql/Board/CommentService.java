@@ -96,4 +96,8 @@ public class CommentService {
 
         return commentRepository.findCommentByUserId(userId);
     }
+
+    public Iterable<Comment> findCommentByPostId(Integer postId){
+        return commentRepository.findCommentByPostId(postId);
+    }
 }
