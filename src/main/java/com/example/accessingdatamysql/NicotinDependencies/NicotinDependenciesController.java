@@ -26,6 +26,7 @@ public class NicotinDependenciesController {
     }
 
     @GetMapping("/getScore")
+    @Operation(summary = "의존도 검사 결과 점수를 리턴.")
     public @ResponseBody Integer getNicotinDependenciesScore(@RequestParam String token)
     {
         return nicotinDependenciesService.getNicotinDependenciesScore(token);
