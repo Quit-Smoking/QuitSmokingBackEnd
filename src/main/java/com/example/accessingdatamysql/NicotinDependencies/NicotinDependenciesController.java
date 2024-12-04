@@ -32,6 +32,13 @@ public class NicotinDependenciesController {
         return nicotinDependenciesService.getNicotinDependenciesScore(token);
     }
 
+    @GetMapping("/isTested")
+    @Operation(summary = "검사했는지 안했는지 리턴")
+    public boolean isTested(String token)
+    {
+        return nicotinDependenciesService.isTested(token);
+    }
+
     @GetMapping("/getAll")
     public Iterable<NicotinDependencies> getAll(){
         return nicotinDependenciesRepository.findAll();
