@@ -1,7 +1,5 @@
 package com.example.accessingdatamysql.Board;
 
-import java.time.LocalDate;
-
 public class CommentRequest {
 
     private String token;
