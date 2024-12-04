@@ -42,27 +42,62 @@ public class MissionRecordService {
     }
 
     public void generateMissionRecords(Mission mission){
+        generateMissionRecords(mission, mission.getStartDate());
+    }
+
+    // date로부터 미션을 업데이트.
+    public void generateMissionRecords(Mission mission, LocalDate date)
+    {
         String week_data = mission.getWeekData();
-        LocalDate start_date = mission.getStartDate();
         Integer user_id = mission.getUserId();
 
         List<MissionRecord> records = new ArrayList<>();
 
+        // 이미 이 미션에 대해 생성된 레코드들.
+        List<MissionRecord> presentRecords = findAllByMissionId(mission.getId());
+
         // 56일 이후의 데이터까지 일단 저장.
         for(int i = 0; i < 56; i++){
-            LocalDate currentDate = start_date.plusDays(i);
+            LocalDate currentDate = date.plusDays(i);
             int dayOfWeek = currentDate.getDayOfWeek().getValue();
 
             if(week_data.charAt(dayOfWeek - 1) == '1'){
-                MissionRecord record = new MissionRecord();
-                record.setDate(currentDate);
-                record.setMissionId(mission.getId());
-                record.setUserId(user_id);
-                record.setCompleted(false);
-                records.add(record);
+                // 미션에 해당하는 레코드가 이미 있다면. break.
+                boolean isAlreadyIn = false;
+                for(MissionRecord record : presentRecords){
+                    if(record.getDate().isEqual(currentDate)){
+                        isAlreadyIn = true;
+                        break;
+                    }
+                }
+                if(isAlreadyIn){
+                    break;
+                }
+                else{
+                    MissionRecord record = new MissionRecord();
+                    record.setDate(currentDate);
+                    record.setMissionId(mission.getId());
+                    record.setUserId(user_id);
+                    record.setCompleted(false);
+                    records.add(record);
+                }
+
             }
         }
         missionRecordRepository.saveAll(records);
+    }
+
+
+    // 매월 전체 업데이트를 진행.
+    public void generateAllRecordsMonthly(){
+        Iterable<Mission> missions = missionRepository.findAll();
+
+        for(Mission mission : missions){
+            // 미션이 삭제되지 않았다면 레코드를 추가.
+            if(!mission.getIsDeleted()){
+                generateMissionRecords(mission, LocalDate.now());
+            }
+        }
     }
 
     // 유저의 전체 레코드를 리턴함.
@@ -145,6 +180,9 @@ public class MissionRecordService {
         return missionRecordRepository.findAllByUserId(user_id);
     };
 
+    public List<MissionRecord> findAllByMissionId(Integer missionId){
+        return missionRecordRepository.findAllByMissionId(missionId);
+    }
 
 
 }
