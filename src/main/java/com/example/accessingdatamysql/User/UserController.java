@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // This means that this class is a Controller
+@RestController
 @RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
 public class UserController {
     @Autowired // This means to get the bean called userRepository
