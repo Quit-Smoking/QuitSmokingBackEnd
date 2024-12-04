@@ -45,6 +45,7 @@ public class CommentController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "api 확인을 위해서 db에 모든 댓글 불러오기")
     public Iterable<Comment> getAllComment(){
         return commentRepository.findAll();
     }

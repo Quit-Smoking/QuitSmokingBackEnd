@@ -23,7 +23,8 @@ public class PostController {
     public String updatePost(@RequestParam String token, @RequestBody UpdatePostRequest request){ return postService.updatePost(token, request); }
 
     @PostMapping("/like")
-    public @ResponseBody String likePost(@RequestParam Integer id){ return postService.likePost(id); }
+    @Operation(summary = "게시글 좋아요 누르기")
+    public String likePost(@RequestParam Integer id){ return postService.likePost(id); }
 
     @GetMapping("/findByPostId")
     @Operation(summary = "게시글 찾기", description="게시글 id로 게시글 불러오기")
@@ -34,6 +35,7 @@ public class PostController {
     public Iterable<Post> findByUserId(@RequestParam String token){ return postService.findByUserId(token); }
 
     @GetMapping("/all")
+    @Operation(summary = "모든 게시글 불로오기")
     public Iterable<Post> getAllPost(){
         return postRepository.findAll();
     }
