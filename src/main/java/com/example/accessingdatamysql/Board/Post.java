@@ -3,7 +3,6 @@ package com.example.accessingdatamysql.Board;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "Post")

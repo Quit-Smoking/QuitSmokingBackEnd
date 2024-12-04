@@ -18,14 +18,4 @@ public class CommentController {
     public @ResponseBody String addComment(@RequestBody CommentRequest request){
         return commentService.addComment(request);
     }
-
-    @PostMapping("/change")
-    public @ResponseBody String changeComment(@RequestParam String token, @RequestParam Integer id, @RequestParam String content){
-        return commentService.changeComment(token, id, content);
-    }
-
-
-    //@GetMapping("/findByUser")
-
-    //@Getmapping("/findByCommentId")
 }

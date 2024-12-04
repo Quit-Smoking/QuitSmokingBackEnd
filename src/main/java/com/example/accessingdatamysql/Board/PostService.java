@@ -67,7 +67,7 @@ public class PostService {
         return postRepository.findPostByUserId(userId);
     }
 
-    //CrudRepository 인터페이스의 내장 함수 findById를 이용해 Optional<Post>를 리턴하고 만약 객체가 존재하지 않으면 null을 리턴
+    //CrudRepository 인터페이스의 내장 함수 findById를 이용해 Optional<Post>를 리턴하고 만약 객체가 존재하지 않으면 Exception 메시지
     public Post findById(Integer id){
         Optional<Post> postOptional = postRepository.findById(id);
         return postOptional.orElse(null);
