@@ -68,7 +68,7 @@ public class UserService {
     //register
     public String register(RegisterRequest request) {
         // 만약 같은 이메일을 가진 사용자가 있다면 메시지 출력.
-        if(userRepository.findByEmail(request.getEmail()) != null){
+        if(!isUniqueUserEmail(request.getEmail())){
             return "동일한 이메일을 가진 사용자 존재.";
         }
         else if(EmailPasswordValidator.isValidEmail(request.getEmail())){
@@ -84,6 +84,10 @@ public class UserService {
         else{
             return "형식이 잘못되었습니다.";
         }
+    }
+
+    public boolean isUniqueUserEmail(String email){
+        return userRepository.findByEmail(email) == null;
     }
 
     public String changePassword(String token, String rawPassword){
