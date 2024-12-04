@@ -1,5 +1,7 @@
 package com.example.accessingdatamysql.User;
 
+import com.example.accessingdatamysql.Board.CommentRepository;
+import com.example.accessingdatamysql.Board.PostRepository;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.MissonRecord.MissionRecordRepository;
 import com.example.accessingdatamysql.Security.JwtUtil;
@@ -30,6 +32,13 @@ public class UserService {
 
     @Autowired
     private MissionRecordRepository missionRecordRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -105,6 +114,8 @@ public class UserService {
             userCessationRecordRepository.deleteAllByUserId(userId);
             missionRepository.deleteAllByUserId(userId);
             missionRecordRepository.deleteAllByUserId(userId);
+            commentRepository.deleteAllByUserId(userId);
+            postRepository.deleteAllByUserId(userId);
             userRepository.deleteById(userId);
 
             return "deleted";
