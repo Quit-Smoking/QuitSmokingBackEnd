@@ -22,6 +22,9 @@ public class PostController {
     @Operation(summary = "게시글 수정하기")
     public @ResponseBody String updatePost(@RequestParam String token, @RequestBody UpdatePostRequest request){ return postService.updatePost(token, request); }
 
+    @PostMapping("/like")
+    public @ResponseBody String likePost(@RequestParam Integer id){ return postService.likePost(id); }
+
     @GetMapping("/findByPostId")
     @Operation(summary = "게시글 찾기", description="게시글 id로 게시글 불러오기")
     public @ResponseBody Post findById(@RequestParam Integer id){ return postService.findById(id); }

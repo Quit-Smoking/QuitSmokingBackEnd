@@ -20,7 +20,7 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
-    private int numberOfComment = 0;
+    private int numberOfComments = 0;
 
     private int numberOfLikes = 0;
 
@@ -64,16 +64,16 @@ public class Post {
         return createdAt;
     }
 
-    public void setNumberOfComment(){
-        numberOfComment++;
+    public void setNumberOfComments(int numberOfComments){
+        this.numberOfComments = numberOfComments;
     }
 
-    public int getNumberOfComment(){
-        return numberOfComment;
+    public int getNumberOfComments(){
+        return numberOfComments;
     }
 
-    public void setNumberOfLikes(){
-        numberOfLikes++;
+    public void setNumberOfLikes(int numberOfLikes){
+        this.numberOfLikes = numberOfLikes;
     }
 
     public int getNumberOfLikes(){

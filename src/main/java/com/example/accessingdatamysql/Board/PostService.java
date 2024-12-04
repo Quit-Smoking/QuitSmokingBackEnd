@@ -3,6 +3,7 @@ package com.example.accessingdatamysql.Board;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -72,6 +76,18 @@ public class PostService {
 
     }
 
+    public String likePost(Integer id){
+        if(postRepository.existsById(id)){
+            Post post = findById(id);
+            post.setNumberOfLikes(post.getNumberOfLikes()+1);
+            postRepository.save(post);
+            return "Saved";
+        }else{
+            return "The post doesn't exist";
+        }
+    }
+
+    @Transactional
     public String deleteById(String token, Integer id){
         String email = jwtUtil.extractEmail(token);
         User user = userRepository.findByEmail(email);
@@ -84,6 +100,7 @@ public class PostService {
 
         if(Objects.equals(user.getId(), findById(id).getUserId())){
             try{
+                commentRepository.deleteAllByPostId(id);
                 postRepository.deleteById(id);
                 return "Deleted";
             }catch (Exception e){

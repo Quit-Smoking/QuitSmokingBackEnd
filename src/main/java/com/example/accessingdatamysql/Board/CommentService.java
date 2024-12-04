@@ -3,6 +3,7 @@ package com.example.accessingdatamysql.Board;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,19 @@ public class CommentService {
     private PostRepository postRepository;
 
     @Autowired
+    private PostService postService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
+    @Transactional
     public String addComment(CommentRequest request){
         String email = jwtUtil.extractEmail(request.getToken());
         Integer userId = userRepository.findByEmail(email).getId();
 
         if(postRepository.existsById(request.getPostId())){
+            Post post = postService.findById(request.getPostId());
+
             Comment comment = new Comment();
 
             comment.setUserId(userId);
@@ -39,6 +46,7 @@ public class CommentService {
             comment.setCreatedAt(LocalDate.now());
             try{
                 commentRepository.save(comment);
+                postRepository.save(post);
                 return "Saved";
             }catch (Exception e){
                 return "failed to save : " + e.getMessage();
@@ -74,12 +82,16 @@ public class CommentService {
         }
     }
 
+    @Transactional
     public String deleteById(String token, Integer id){
         String email = jwtUtil.extractEmail(token);
         User user = userRepository.findByEmail(email);
 
         if(Objects.equals(user.getId(), findById(id).getUserId())){
+            Post post = postService.findById(id);
+            post.setNumberOfComments(post.getNumberOfComments()-1);
             try{
+                postRepository.save(post);
                 commentRepository.deleteById(id);
                 return "Deleted";
             }catch (Exception e){
