@@ -2,6 +2,7 @@ package com.example.accessingdatamysql.Mission;
 
 import com.example.accessingdatamysql.MissonRecord.MissionRecordService;
 import com.example.accessingdatamysql.Security.JwtUtil;
+import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
 import com.example.accessingdatamysql.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,9 @@ public class MissionService {
         Mission mission = new Mission();
 
         try{
-            String email = jwtUtil.extractEmail(request.getToken());
-            Integer userId = userService.findByEmail(email).getId();
+            User user = userService.findByToken(request.getToken());
 
-            mission.setUserId(userId);
+            mission.setUser(user);
             mission.setMission(request.getMission());
             mission.setStartDate(request.getStart_date());
             mission.setIsDeleted(request.getIs_deleted());
@@ -61,9 +61,8 @@ public class MissionService {
     // 미션을 불러온다. 중단된 미션은 불러오지 않는다.
     public List<MissionResponse> getMissions(String token){
         try{
-            String email = jwtUtil.extractEmail(token);
-            Integer userId = userRepository.findByEmail(email).getId();
-            List<Mission> missions = missionRepository.findAllByUserId(userId);
+            User user = userService.findByToken(token);
+            List<Mission> missions = user.getMissions();
 
             missions.removeIf(Mission::getIsDeleted);
 

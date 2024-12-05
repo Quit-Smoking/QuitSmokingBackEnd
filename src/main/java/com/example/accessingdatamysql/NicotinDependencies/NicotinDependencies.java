@@ -1,7 +1,7 @@
 package com.example.accessingdatamysql.NicotinDependencies;
 
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "nicotin_dependencies")
@@ -9,9 +9,6 @@ public class NicotinDependencies {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "user_id")
-    private Integer userId;
 
     @Column(name = "number_smoked_per_day_num")
     private Integer numberSmokedPerDayNum;
@@ -31,6 +28,9 @@ public class NicotinDependencies {
     @Column(name = "you_sick_smoke_num")
     private Integer youSickSmokeNum;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Integer getId() {
         return id;
@@ -40,12 +40,12 @@ public class NicotinDependencies {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getNumberSmokedPerDayNum() {

@@ -3,9 +3,9 @@ package com.example.accessingdatamysql.MissonRecord;
 import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.Security.JwtUtil;
+import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,17 +30,6 @@ public class MissionRecordService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public String addMissionRecord(MissionRecordRequest request){
-        MissionRecord n = new MissionRecord();
-
-        n.setUserId(request.getUserId());
-        n.setMissionId(request.getMissionId());
-        n.setDate(request.getDate());
-
-        missionRecordRepository.save(n);
-        return "Saved";
-    }
-
     public void generateMissionRecords(Mission mission){
         generateMissionRecords(mission, mission.getStartDate());
     }
@@ -48,8 +37,7 @@ public class MissionRecordService {
     // date로부터 미션을 업데이트.
     public void generateMissionRecords(Mission mission, LocalDate date)
     {
-        String week_data = mission.getWeekData();
-        Integer user_id = mission.getUserId();
+        User user = mission.getUser();
 
         List<MissionRecord> records = new ArrayList<>();
 
@@ -61,7 +49,7 @@ public class MissionRecordService {
             LocalDate currentDate = date.plusDays(i);
             int dayOfWeek = currentDate.getDayOfWeek().getValue();
 
-            if(week_data.charAt(dayOfWeek - 1) == '1'){
+            if(mission.getWeekData().charAt(dayOfWeek - 1) == '1'){
                 // 미션에 해당하는 레코드가 이미 있다면. break.
                 boolean isAlreadyIn = false;
                 for(MissionRecord record : presentRecords){
@@ -76,8 +64,8 @@ public class MissionRecordService {
                 else{
                     MissionRecord record = new MissionRecord();
                     record.setDate(currentDate);
-                    record.setMissionId(mission.getId());
-                    record.setUserId(user_id);
+                    record.setMission(mission);
+                    record.setUser(user);
                     record.setCompleted(false);
                     records.add(record);
                 }
@@ -149,10 +137,10 @@ public class MissionRecordService {
     private MissionRecordsFetchResponse addResponse(MissionRecord record){
         MissionRecordsFetchResponse response = new MissionRecordsFetchResponse();
         response.setId(record.getId());
-        response.setMissionId(record.getMissionId());
-        String missionName = missionRepository.findById(record.getMissionId())
+        response.setMissionId(record.getMission().getId());
+        String missionName = missionRepository.findById(record.getMission().getId())
                 .map(Mission::getMission) // Mission 객체에서 Mission 이름 가져오기
-                .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMissionId()));
+                .orElseThrow(() -> new NoSuchElementException("Mission not found for ID: " + record.getMission()));
         response.setMission(missionName);
         response.setDate(record.getDate());
         response.setCompleted(record.getCompleted());
@@ -161,6 +149,7 @@ public class MissionRecordService {
     }
 
     // 특정 record를 completed 처리함.
+    // token 검사 필요. StartRecord처럼.
     public String completeMissionRecord(String token, Integer missionRecordId){
         Optional<MissionRecord> optionalRecord = missionRecordRepository.findById(missionRecordId);
 

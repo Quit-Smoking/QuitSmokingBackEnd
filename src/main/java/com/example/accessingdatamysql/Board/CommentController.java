@@ -11,9 +11,6 @@ import java.util.List;
 public class CommentController {
 
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private CommentService commentService;
 
     @PostMapping("/add")

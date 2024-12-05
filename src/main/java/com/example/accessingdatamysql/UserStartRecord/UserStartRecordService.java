@@ -8,6 +8,7 @@ import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRep
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -46,6 +47,9 @@ public class UserStartRecordService {
 
     public String changeResolution(String token, String resolution){
 
+        if(!doExist(token)){
+            return "record가 없음.";
+        }
         User user = userService.findByToken(token);
 
         UserStartRecord userRecord = user.getUserStartRecord();
@@ -69,9 +73,9 @@ public class UserStartRecordService {
         response.setStartDate(record.getStartDate());
 
         return response;
-
     }
 
+    @Transactional
     //금연을 중단했을 시 금연기록으로 더해지고 현재 진행중인 금연기록이 삭제된다 --> 금연을 재시작할 수 있는 상태가 됨
     public String stopQuitting(String token, LocalDate endDate){
         User user = userService.findByToken(token);
@@ -79,7 +83,9 @@ public class UserStartRecordService {
         UserStartRecord userRecord = user.getUserStartRecord();
 
         String saved = userCessationRecordService.addNewUserCessationRecord(token, endDate);
-        userStartRecordRepository.delete(userRecord);
+
+        user.setUserStartRecord(null);
+        userStartRecordRepository.deleteById(userRecord.getId());
 
         return  saved + " to UserCessationRecords and got deleted from UserStartRecords";
     }
@@ -88,10 +94,6 @@ public class UserStartRecordService {
         User user = userService.findByToken(token);
 
         return user.getUserStartRecord() != null;
-    }
-
-    public void deleteAllByUserId(Integer userId){
-        userStartRecordRepository.deleteAllByUserId(userId);
     }
 
 }

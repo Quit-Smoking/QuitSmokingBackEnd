@@ -17,6 +17,9 @@ public class Comment {
 
     private String content;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -25,8 +28,6 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
 
     public void setId(Integer id){
         this.id = id;
