@@ -17,19 +17,9 @@ import java.util.List;
 
 @Service
 public class UserCessationRecordService {
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserStartRecordRepository userStartRecordRepository;
-
+    
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 

@@ -20,15 +20,6 @@ public class UserStartRecordService {
     private UserService userService;
 
     @Autowired
-    private UserCessationRecordRepository userCessationRecordRepository;
-
-    @Autowired
-    private UserCessationRecordController userCessationRecordController;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private UserCessationRecordService userCessationRecordService;
 
     //한 회원이 이미 금연중인것에 확인이 되면 새로 데이터를 생성하지 않는다
