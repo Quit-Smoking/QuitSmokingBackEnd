@@ -47,7 +47,9 @@ public class UserStartRecordService {
     public String changeResolution(String token, String resolution){
 
         User user = userService.findByToken(token);
+
         UserStartRecord userRecord = user.getUserStartRecord();
+
         userRecord.setResolution(resolution);
 
         userStartRecordRepository.save(userRecord);
@@ -59,7 +61,6 @@ public class UserStartRecordService {
         User user = userService.findByToken(token);
 
         UserStartRecord record = user.getUserStartRecord();
-
         UserStartRecordResponse response = new UserStartRecordResponse();
 
         response.setMotive(record.getMotive());
