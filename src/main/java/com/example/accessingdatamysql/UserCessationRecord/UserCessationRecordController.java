@@ -28,7 +28,7 @@ public class UserCessationRecordController {
 
     @GetMapping("/findByUser")
     @Operation(summary = "특정 사용자 금연 기록 보기" , description="user_id, start_date, end_date를 리턴")
-    public List<UserCessationRecord> getUserCessationRecord(@RequestParam String token){
+    public List<UserCessationRecordResponse> getUserCessationRecord(@RequestParam String token){
         return userCessationRecordService.getUserCessationRecord(token);
     }
 

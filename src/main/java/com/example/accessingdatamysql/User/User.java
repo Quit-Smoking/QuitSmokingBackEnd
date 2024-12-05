@@ -1,7 +1,10 @@
 package com.example.accessingdatamysql.User;
 
+import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecord;
 import com.example.accessingdatamysql.UserStartRecord.UserStartRecord;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -19,6 +22,10 @@ public class User {
     // userStartRecord와 연결.
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserStartRecord userStartRecord;
+
+    // userCessationRecord와 연결.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserCessationRecord> userCessationRecords;
 
     public Integer getId() {
         return id;
@@ -58,6 +65,14 @@ public class User {
 
     public void setUserStartRecord(UserStartRecord userStartRecord) {
         this.userStartRecord = userStartRecord;
+    }
+
+    public List<UserCessationRecord> getUserCessationRecords() {
+        return userCessationRecords;
+    }
+
+    public void setUserCessationRecords(List<UserCessationRecord> userCessationRecords) {
+        this.userCessationRecords = userCessationRecords;
     }
 
 }

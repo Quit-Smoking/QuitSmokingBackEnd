@@ -86,7 +86,6 @@ public class UserStartRecordService {
 
         UserStartRecord userRecord = user.getUserStartRecord();
 
-        // usercessation 수정 필요.
         String saved = userCessationRecordService.addNewUserCessationRecord(token, endDate);
         userStartRecordRepository.delete(userRecord);
 
