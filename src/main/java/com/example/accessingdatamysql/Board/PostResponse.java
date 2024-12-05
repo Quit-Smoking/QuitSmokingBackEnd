@@ -18,6 +18,8 @@ public class PostResponse {
 
     private int numberOfComments = 0;
 
+    private String nickname;
+
     public int getNumberOfLikes() {
         return numberOfLikes;
     }
@@ -64,5 +66,13 @@ public class PostResponse {
 
     public void setNumberOfComments(int numberOfComments) {
         this.numberOfComments = numberOfComments;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

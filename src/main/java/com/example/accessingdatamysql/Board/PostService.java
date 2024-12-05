@@ -166,6 +166,7 @@ public class PostService {
         response.setNumberOfLikes(post.getNumberOfLikes());
         response.setCreatedAt(post.getCreatedAt());
         response.setNumberOfComments(post.getNumberOfComments());
+        response.setNickname(post.getUser().getNickname());
 
         return response;
     }
