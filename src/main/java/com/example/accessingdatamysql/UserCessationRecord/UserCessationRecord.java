@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.UserCessationRecord;
 
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,13 +13,15 @@ public class UserCessationRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate end_date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Integer getId() {
         return id;
@@ -28,12 +31,12 @@ public class UserCessationRecord {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDate getStartDate() {

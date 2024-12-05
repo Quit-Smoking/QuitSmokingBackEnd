@@ -3,11 +3,14 @@ package com.example.accessingdatamysql.Board;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserRepository;
+import com.example.accessingdatamysql.User.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,15 +27,16 @@ public class PostService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     public String addPost(PostRequest request){
         Post n = new Post();
 
-        String email = jwtUtil.extractEmail(request.getToken());
-        Integer userId = userRepository.findByEmail(email).getId();
-
-        n.setUserId(userId);
+        User user = userService.findByToken(request.getToken());
+        n.setUser(user);
         n.setTitle(request.getTitle());
         n.setContent(request.getContent());
         n.setCreatedAt(request.getCreatedAt());
@@ -43,21 +47,19 @@ public class PostService {
         }catch(Exception e){
             return "Failed to save : " + e.getMessage();
         }
-
-
     }
 
     public String updatePost(String token, UpdatePostRequest request){
-        String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
+        User user = userService.findByToken(token);
 
+        // postId로 post를 찾음.
         Post post = findById(request.getId());
 
         if(post == null){
             return "The post you want to update, does not exist";
         }
-
-        if(Objects.equals(user.getId(), findById(request.getId()).getUserId())){
+        // 실제 유저와 post의 유저가 같은지 검사.
+        if(Objects.equals(user, findById(request.getId()).getUser())){
 
             post.setTitle(request.getTitle());
             post.setContent(request.getContent());
@@ -77,7 +79,7 @@ public class PostService {
     }
 
     public String likePost(Integer id){
-        if(postRepository.existsById(id)){
+        if(isExistsById(id)){
             Post post = findById(id);
             post.setNumberOfLikes(post.getNumberOfLikes()+1);
             postRepository.save(post);
@@ -89,18 +91,16 @@ public class PostService {
 
     @Transactional
     public String deleteById(String token, Integer id){
-        String email = jwtUtil.extractEmail(token);
-        User user = userRepository.findByEmail(email);
+        User user = userService.findByToken(token);
 
         Post post = findById(id);
 
         if(post == null){
             return "The post you want to delete, does not exist";
         }
-
-        if(Objects.equals(user.getId(), findById(id).getUserId())){
+        // post의 유저인지 검사.
+        if(Objects.equals(user, post.getUser())){
             try{
-                commentRepository.deleteAllByPostId(id);
                 postRepository.deleteById(id);
                 return "Deleted";
             }catch (Exception e){
@@ -111,11 +111,24 @@ public class PostService {
         }
     }
 
-    public Iterable<Post> findByUserId(String token){
-        String email = jwtUtil.extractEmail(token);
-        Integer userId = userRepository.findByEmail(email).getId();
+    // 수정 필요.
+    public List<PostResponse> getPostResponsesByToken(String token){
+        User user = userService.findByToken(token);
+        List<Post> posts = user.getPosts();
 
-        return postRepository.findPostByUserId(userId);
+        List<PostResponse> responses = new ArrayList<>();
+        for(Post post : posts){
+            PostResponse response = parsePostToResponse(post);
+
+            responses.add(response);
+        }
+
+        return responses;
+    }
+
+    public PostResponse getPostResponseById(Integer id)
+    {
+        return parsePostToResponse(findById(id));
     }
 
     //CrudRepository 인터페이스의 내장 함수 findById를 이용해 Optional<Post>를 리턴하고 만약 객체가 존재하지 않으면 Exception 메시지
@@ -123,4 +136,23 @@ public class PostService {
         Optional<Post> postOptional = postRepository.findById(id);
         return postOptional.orElse(null);
     }
+
+    public boolean isExistsById(Integer id){
+        return postRepository.existsById(id);
+    }
+
+    public PostResponse parsePostToResponse(Post post)
+    {
+        PostResponse response = new PostResponse();
+
+        response.setId(post.getId());
+        response.setContent(post.getContent());
+        response.setTitle(post.getTitle());
+        response.setNumberOfLikes(post.getNumberOfLikes());
+        response.setCreatedAt(post.getCreatedAt());
+        response.setNumberOfComments(post.getNumberOfComments());
+
+        return response;
+    }
+
 }

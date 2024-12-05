@@ -1,10 +1,10 @@
 package com.example.accessingdatamysql.Board;
 
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "Comment")
@@ -13,19 +13,20 @@ public class Comment {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
-
-    private Integer postId;
-
     private Integer parentCommentId = 0;
-
-    private String nickname;
 
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
-
 
     public void setId(Integer id){
         this.id = id;
@@ -35,28 +36,20 @@ public class Comment {
         return id;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUser(User user){
+        this.user = user;
     }
 
-    public String getNickname() {
-        return nickname;
+    public User getUser(){
+        return user;
     }
 
-    public void setUserId(Integer userId){
-        this.userId = userId;
+    public void setPost(Post post){
+        this.post = post;
     }
 
-    public Integer getUserId(){
-        return userId;
-    }
-
-    public void setPostId(Integer postId){
-        this.postId = postId;
-    }
-
-    public Integer getPostId(){
-        return postId;
+    public Post getPost(){
+        return post;
     }
 
     public void setContent(String content){

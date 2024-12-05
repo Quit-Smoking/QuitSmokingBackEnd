@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path="/post")
 public class PostController {
@@ -27,17 +29,11 @@ public class PostController {
 
     @GetMapping("/findByPostId")
     @Operation(summary = "게시글 찾기", description="게시글 id로 게시글 불러오기")
-    public Post findById(@RequestParam Integer id){ return postService.findById(id); }
+    public PostResponse findPostById(@RequestParam Integer id){ return postService.getPostResponseById(id); }
 
     @GetMapping("/findByUser")
     @Operation(summary = "사용자의 모든 게시글 불러오기")
-    public Iterable<Post> findByUserId(@RequestParam String token){ return postService.findByUserId(token); }
-
-    @GetMapping("/all")
-    @Operation(summary = "모든 게시글 불로오기")
-    public Iterable<Post> getAllPost(){
-        return postRepository.findAll();
-    }
+    public List<PostResponse> findByUserId(@RequestParam String token){ return postService.getPostResponsesByToken(token); }
 
     @DeleteMapping("/delete")
     @Operation(summary = "게시글 삭제하기", description="게시글 id로 게시글 삭제하기")

@@ -1,6 +1,7 @@
 package com.example.accessingdatamysql.User;
 
 import com.example.accessingdatamysql.Board.CommentRepository;
+import com.example.accessingdatamysql.Board.Post;
 import com.example.accessingdatamysql.Board.PostRepository;
 import com.example.accessingdatamysql.Mission.MissionRepository;
 import com.example.accessingdatamysql.MissonRecord.MissionRecordRepository;
@@ -134,4 +135,5 @@ public class UserService {
             return "password does not match";
         }
     }
+
 }
