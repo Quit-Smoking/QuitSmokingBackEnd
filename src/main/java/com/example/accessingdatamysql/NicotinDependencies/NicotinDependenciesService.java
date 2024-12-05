@@ -16,18 +16,17 @@ public class NicotinDependenciesService {
 
     public String addNicotinDependencies(String token, NicotinDependenciesRequest request)
     {
-
         try {
             User user = userService.findByToken(token);
 
             // 이미 기록이 있는지?
-            NicotinDependencies dependencies = new NicotinDependencies();
+            NicotinDependencies dependencies = user.getNicotinDependencies();
 
-            if(isTested(user)){
-                dependencies = findByUserId(user.getId());
+            if(dependencies == null){
+                dependencies = new NicotinDependencies();
             }
 
-            dependencies.setUserId(user.getId());
+            dependencies.setUser(user);
             dependencies.setAfternoonOrDinnerNum(request.getAfternoonOrDinnerNum());
             dependencies.setFirstSmokeTimeNum(request.getFirstSmokeTimeNum());
             dependencies.setGreatestSmokeOnDayNum(request.getGreatestSmokeOnDayNum());
@@ -46,7 +45,7 @@ public class NicotinDependenciesService {
 
     public Integer getNicotinDependenciesScore(String token){
         try{
-            NicotinDependencies dependencies = findByUserId(userService.findByToken(token).getId());
+            NicotinDependencies dependencies = userService.findByToken(token).getNicotinDependencies();
 
             return calScore(dependencies);
         }
@@ -115,19 +114,7 @@ public class NicotinDependenciesService {
         return score;
     }
 
-    public boolean isTested(User user){
-        // 이미 기록이 있는지?
-        NicotinDependencies dependencies = findByUserId(user.getId());
-        return dependencies != null;
-    }
-
-    public boolean isTested(String token){
-        // 이미 기록이 있는지?
-        NicotinDependencies dependencies = findByUserId(userService.findByToken(token).getId());
-        return dependencies != null;
-    }
-
-    public NicotinDependencies findByUserId(Integer userId){
-        return nicotinDependenciesRepository.findByUserId(userId);
+    public boolean isTested(String token) {
+        return userService.findByToken(token).getUserCessationRecords() != null;
     }
 }

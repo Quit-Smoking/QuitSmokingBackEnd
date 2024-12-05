@@ -2,6 +2,7 @@ package com.example.accessingdatamysql.User;
 
 import com.example.accessingdatamysql.Board.Comment;
 import com.example.accessingdatamysql.Board.Post;
+import com.example.accessingdatamysql.NicotinDependencies.NicotinDependencies;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecord;
 import com.example.accessingdatamysql.UserStartRecord.UserStartRecord;
 import jakarta.persistence.*;
@@ -33,10 +34,12 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    //comment는 post와만 연결되어 있음.
-    // post와 연결.
+    // comment 연결.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private NicotinDependencies nicotinDependencies;
 
     public Integer getId() {
         return id;
@@ -102,4 +105,11 @@ public class User {
         this.comments = comments;
     }
 
+    public NicotinDependencies getNicotinDependencies() {
+        return nicotinDependencies;
+    }
+
+    public void setNicotinDependencies(NicotinDependencies nicotinDependencies) {
+        this.nicotinDependencies = nicotinDependencies;
+    }
 }

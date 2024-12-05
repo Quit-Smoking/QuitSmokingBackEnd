@@ -21,19 +21,10 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
     private PostService postService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @Transactional
     public String addComment(CommentRequest request){
