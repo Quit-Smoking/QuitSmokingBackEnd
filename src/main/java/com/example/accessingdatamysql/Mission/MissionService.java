@@ -18,13 +18,7 @@ import java.util.Optional;
 public class MissionService {
 
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private MissionRepository missionRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -94,17 +88,6 @@ public class MissionService {
             // 삭제한 날짜 뒤에 있는 record들을 삭제함. 우선 미션에 해당하는 모든 레코드를 불러옴.
             List<MissionRecord> records = mission.getMissionRecords();
 
-//            for(MissionRecord record : records){
-//                // 현재 날짜
-//                LocalDate currentDate = LocalDate.now();
-//                // 레코드가 현재 날짜 혹은 이후라면 삭제 진행.
-//                if(currentDate.isAfter(record.getDate()) || currentDate.isEqual(record.getDate()))
-//                {
-//                    mission.deleteRecord(record);
-//                }
-//
-//                missionRepository.save(mission);
-//            }
             for(int i = 0; i < records.size(); i++){
                 LocalDate currentDate = LocalDate.now();
 
