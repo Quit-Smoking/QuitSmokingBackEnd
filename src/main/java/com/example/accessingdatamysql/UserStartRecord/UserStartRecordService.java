@@ -47,6 +47,9 @@ public class UserStartRecordService {
 
     public String changeResolution(String token, String resolution){
 
+        if(!doExist(token)){
+            return "record가 없음.";
+        }
         User user = userService.findByToken(token);
         UserStartRecord userRecord = user.getUserStartRecord();
         userRecord.setResolution(resolution);
@@ -69,7 +72,6 @@ public class UserStartRecordService {
         response.setStartDate(record.getStartDate());
 
         return response;
-
     }
 
     @Transactional
