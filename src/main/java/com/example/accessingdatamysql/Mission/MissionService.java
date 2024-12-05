@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.Mission;
 
+import com.example.accessingdatamysql.MissonRecord.MissionRecord;
 import com.example.accessingdatamysql.MissonRecord.MissionRecordService;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
@@ -8,6 +9,7 @@ import com.example.accessingdatamysql.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,6 +90,33 @@ public class MissionService {
             Mission mission = missionOptional.get();
             mission.setIsDeleted(true);
             missionRepository.save(mission);
+
+            // 삭제한 날짜 뒤에 있는 record들을 삭제함. 우선 미션에 해당하는 모든 레코드를 불러옴.
+            List<MissionRecord> records = mission.getMissionRecords();
+
+//            for(MissionRecord record : records){
+//                // 현재 날짜
+//                LocalDate currentDate = LocalDate.now();
+//                // 레코드가 현재 날짜 혹은 이후라면 삭제 진행.
+//                if(currentDate.isAfter(record.getDate()) || currentDate.isEqual(record.getDate()))
+//                {
+//                    mission.deleteRecord(record);
+//                }
+//
+//                missionRepository.save(mission);
+//            }
+            for(int i = 0; i < records.size(); i++){
+                LocalDate currentDate = LocalDate.now();
+
+                MissionRecord record = records.get(i);
+                if(record.getDate().isAfter(currentDate) || record.getDate().isEqual(currentDate))
+                {
+                    mission.deleteRecord(record);
+                    i--;
+                }
+            }
+            missionRepository.save(mission);
+
             return "Deleted";
         }
         else{
