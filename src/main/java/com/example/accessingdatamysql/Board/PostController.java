@@ -40,4 +40,10 @@ public class PostController {
     public String deletedById(@RequestParam String token, @RequestParam Integer id){
         return postService.deleteById(token, id);
     }
+
+    @GetMapping("/bringAllPosts")
+    @Operation(summary = "모든 게시글을 불러온다.")
+    public List<PostResponse> getAllPosts(){
+        return postService.getAllPostResponses();
+    }
 }
