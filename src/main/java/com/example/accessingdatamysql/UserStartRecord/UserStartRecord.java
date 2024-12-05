@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,8 +13,6 @@ public class UserStartRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
-
     private String motive;
 
     private String resolution;
@@ -23,6 +22,10 @@ public class UserStartRecord {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Integer getId() {
         return id;
     }
@@ -31,12 +34,12 @@ public class UserStartRecord {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getMotive() {

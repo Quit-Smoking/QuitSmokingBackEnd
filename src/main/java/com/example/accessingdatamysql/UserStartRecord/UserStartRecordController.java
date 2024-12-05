@@ -34,7 +34,7 @@ public class UserStartRecordController {
 
     @GetMapping("/findUserStartRecord")
     @Operation(summary = "회원별 금연시작 정보 보기", description = "Parameter로 token을 받아 특정 사용자의 금연시작 정보를 불러옴")
-    public UserStartRecord findUserStartRecord(@RequestParam String token){ return  userStartRecordService.findUserStartRecord(token); }
+    public UserStartRecordResponse findUserStartRecord(@RequestParam String token){ return  userStartRecordService.findUserStartRecord(token); }
 
     @GetMapping("/all")
     @Operation(summary = "모든 사용자의 금연시작 정보 보기")

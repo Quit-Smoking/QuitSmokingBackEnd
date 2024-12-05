@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.User;
 
+import com.example.accessingdatamysql.UserStartRecord.UserStartRecord;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,10 @@ public class User {
     private String password;
 
     private String nickname;
+
+    // userStartRecord와 연결.
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserStartRecord userStartRecord;
 
     public Integer getId() {
         return id;
@@ -47,5 +52,12 @@ public class User {
         this.nickname = nickname;
     }
 
+    public UserStartRecord getUserStartRecord() {
+        return userStartRecord;
+    }
+
+    public void setUserStartRecord(UserStartRecord userStartRecord) {
+        this.userStartRecord = userStartRecord;
+    }
 
 }

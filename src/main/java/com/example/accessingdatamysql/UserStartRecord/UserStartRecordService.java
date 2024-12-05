@@ -1,7 +1,7 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
 import com.example.accessingdatamysql.Security.JwtUtil;
-import com.example.accessingdatamysql.User.UserRepository;
+import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserService;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordController;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
@@ -33,19 +33,19 @@ public class UserStartRecordService {
 
     //한 회원이 이미 금연중인것에 확인이 되면 새로 데이터를 생성하지 않는다
     public String addNewUserStartRecord(UserStartRecordRequest request){
-        UserStartRecord n = new UserStartRecord();
+        User user = userService.findByToken(request.getToken());
 
-        Integer userId = userService.findByToken(request.getToken()).getId();
+        UserStartRecord userRecord = user.getUserStartRecord();
 
-        UserStartRecord userRecord = findRecordByUserId(userId);
-
+        //이거 체크 필요.
         if(userRecord == null){
-            n.setUserId(userId);
-            n.setNumbersSmoked(request.getNumbersSmoked());
-            n.setMotive(request.getMotive());
-            n.setResolution(request.getResolution());
-            n.setStartDate(request.getStartDate());
-            userStartRecordRepository.save(n);
+            userRecord = new UserStartRecord();
+            userRecord.setUser(user);
+            userRecord.setNumbersSmoked(request.getNumbersSmoked());
+            userRecord.setMotive(request.getMotive());
+            userRecord.setResolution(request.getResolution());
+            userRecord.setStartDate(request.getStartDate());
+            userStartRecordRepository.save(userRecord);
 
             return "Saved";
         }else{
@@ -54,43 +54,49 @@ public class UserStartRecordService {
     }
 
     public String changeResolution(String token, String resolution){
-        Integer userId = userService.findByToken(token).getId();
-        UserStartRecord userRecord = findRecordByUserId(userId);
+
+        User user = userService.findByToken(token);
+        UserStartRecord userRecord = user.getUserStartRecord();
         userRecord.setResolution(resolution);
 
         userStartRecordRepository.save(userRecord);
 
         return "resolution changed";
     }
-    
-    public UserStartRecord findUserStartRecord(String token){
-        Integer userId = userService.findByToken(token).getId();
 
-        return findRecordByUserId(userId);
+    public UserStartRecordResponse findUserStartRecord(String token){
+        User user = userService.findByToken(token);
+
+        UserStartRecord record = user.getUserStartRecord();
+
+        UserStartRecordResponse response = new UserStartRecordResponse();
+
+        response.setMotive(record.getMotive());
+        response.setResolution(record.getResolution());
+        response.setNumbersSmoked(record.getNumbersSmoked());
+        response.setStartDate(record.getStartDate());
+
+        return response;
 
     }
 
     //금연을 중단했을 시 금연기록으로 더해지고 현재 진행중인 금연기록이 삭제된다 --> 금연을 재시작할 수 있는 상태가 됨
     public String stopQuitting(String token, LocalDate endDate){
-        Integer userId = userService.findByToken(token).getId();
+        User user = userService.findByToken(token);
 
-        UserStartRecord userRecord = findRecordByUserId(userId);
+        UserStartRecord userRecord = user.getUserStartRecord();
 
+        // usercessation 수정 필요.
         String saved = userCessationRecordService.addNewUserCessationRecord(token, endDate);
         userStartRecordRepository.delete(userRecord);
 
         return  saved + " to UserCessationRecords and got deleted from UserStartRecords";
     }
 
-    public UserStartRecord findRecordByUserId(Integer userId){
-        return userStartRecordRepository.findRecordByUserId(userId);
-    }
-
     public boolean doExist(String token){
-        Integer userId = userService.findByToken(token).getId();
-        Integer id = userStartRecordRepository.findRecordByUserId(userId).getId();
+        User user = userService.findByToken(token);
 
-        return userStartRecordRepository.existsById(id);
+        return user.getUserStartRecord() != null;
     }
 
     public void deleteAllByUserId(Integer userId){
