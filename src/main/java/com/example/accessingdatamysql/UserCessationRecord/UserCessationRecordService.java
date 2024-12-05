@@ -19,7 +19,7 @@ import java.util.List;
 public class UserCessationRecordService {
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
