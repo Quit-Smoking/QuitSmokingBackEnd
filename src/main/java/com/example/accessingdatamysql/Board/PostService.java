@@ -101,6 +101,7 @@ public class PostService {
         // post의 유저인지 검사.
         if(Objects.equals(user, post.getUser())){
             try{
+                commentRepository.deleteAllByPostId(id);
                 postRepository.deleteById(id);
                 return "Deleted";
             }catch (Exception e){
