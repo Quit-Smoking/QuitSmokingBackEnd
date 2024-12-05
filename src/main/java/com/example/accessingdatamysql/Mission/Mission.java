@@ -92,4 +92,17 @@ public class Mission {
         this.start_date = start_date;
     }
 
+    public List<MissionRecord> getMissionRecords() {
+        return missionRecords;
+    }
+
+    public void setMissionRecords(List<MissionRecord> missionRecords) {
+        this.missionRecords = missionRecords;
+    }
+
+    public void deleteRecord(MissionRecord record)
+    {
+        missionRecords.remove(record);
+        record.setMission(null);
+    }
 }
