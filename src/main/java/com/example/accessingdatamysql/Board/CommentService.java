@@ -154,6 +154,7 @@ public class CommentService {
         respond.setPostId(comment.getPost().getId());
         respond.setParentCommentId(comment.getParentCommentId());
         respond.setCreatedAt(comment.getCreatedAt());
+        respond.setNickname(comment.getUser().getNickname());
 
         return respond;
     }

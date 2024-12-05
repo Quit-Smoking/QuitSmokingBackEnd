@@ -13,6 +13,8 @@ public class CommentRespond {
 
     private LocalDate createdAt;
 
+    private String nickname;
+
     public LocalDate getCreatedAt() {
         return createdAt;
     }
@@ -51,5 +53,13 @@ public class CommentRespond {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
