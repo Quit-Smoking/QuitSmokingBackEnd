@@ -32,14 +32,15 @@ public class CommentService {
     @Transactional
     public String addComment(CommentRequest request){
         String email = jwtUtil.extractEmail(request.getToken());
-        Integer userId = userRepository.findByEmail(email).getId();
+        User user = userRepository.findByEmail(email);
 
         if(postRepository.existsById(request.getPostId())){
             Post post = postService.findById(request.getPostId());
 
             Comment comment = new Comment();
 
-            comment.setUserId(userId);
+            comment.setNickname(user.getNickname());
+            comment.setUserId(user.getId());
             comment.setPostId(request.getPostId());
             comment.setParentCommentId(request.getParentCommentId());
             comment.setContent(request.getContent());

@@ -19,6 +19,8 @@ public class Comment {
 
     private Integer parentCommentId = 0;
 
+    private String nickname;
+
     private String content;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -31,6 +33,14 @@ public class Comment {
 
     public Integer getId(){
         return id;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public void setUserId(Integer userId){
