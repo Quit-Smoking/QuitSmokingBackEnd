@@ -57,4 +57,11 @@ public class UserCessationRecordService {
         return responses;
     }
 
+    public boolean doExist(String token){
+        User user = userService.findByToken(token);
+
+        List<UserCessationRecord> records = user.getUserCessationRecords();
+        return !records.isEmpty();
+    }
+
 }

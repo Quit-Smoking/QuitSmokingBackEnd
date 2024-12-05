@@ -32,6 +32,13 @@ public class UserCessationRecordController {
         return userCessationRecordService.getUserCessationRecord(token);
     }
 
+    @GetMapping("/doExist")
+    @Operation(summary = "금연을 중단한적이 없는지?")
+    public boolean doExist(@RequestParam String token)
+    {
+        return userCessationRecordService.doExist(token);
+    }
+
     @GetMapping("/all")
     @Operation(summary = "모든 사용자의 금연 기록 보기", description = "user_id, start_date, end_date를 리턴")
     public Iterable<UserCessationRecord> getAllUserCessationRecord() {
