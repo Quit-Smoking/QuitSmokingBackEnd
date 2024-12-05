@@ -86,6 +86,13 @@ public class UserStartRecordService {
         return userStartRecordRepository.findRecordByUserId(userId);
     }
 
+    public boolean doExist(String token){
+        Integer userId = userService.findByToken(token).getId();
+        Integer id = userStartRecordRepository.findRecordByUserId(userId).getId();
+
+        return userStartRecordRepository.existsById(id);
+    }
+
     public void deleteAllByUserId(Integer userId){
         userStartRecordRepository.deleteAllByUserId(userId);
     }
