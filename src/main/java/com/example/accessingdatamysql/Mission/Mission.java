@@ -1,20 +1,19 @@
 package com.example.accessingdatamysql.Mission;
 
+import com.example.accessingdatamysql.MissonRecord.MissionRecord;
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="missions")
 public class Mission {
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
-
-    private Integer userId;
 
     private String mission;
 
@@ -30,6 +29,13 @@ public class Mission {
     @Column(name = "week_data")
     private String weekData;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MissionRecord> missionRecords;
+
     public Integer getId() {
         return id;
     }
@@ -38,12 +44,12 @@ public class Mission {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getMission() {

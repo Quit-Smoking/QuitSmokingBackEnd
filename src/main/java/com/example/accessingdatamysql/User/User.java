@@ -2,6 +2,8 @@ package com.example.accessingdatamysql.User;
 
 import com.example.accessingdatamysql.Board.Comment;
 import com.example.accessingdatamysql.Board.Post;
+import com.example.accessingdatamysql.Mission.Mission;
+import com.example.accessingdatamysql.MissonRecord.MissionRecord;
 import com.example.accessingdatamysql.NicotinDependencies.NicotinDependencies;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecord;
 import com.example.accessingdatamysql.UserStartRecord.UserStartRecord;
@@ -38,8 +40,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    // nicotine dependency 연결.
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private NicotinDependencies nicotinDependencies;
+    
+    // mission과 연결.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mission> missions;
+
+    // missionRecord와 연결.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MissionRecord> missionRecords;
 
     public Integer getId() {
         return id;
@@ -112,4 +123,21 @@ public class User {
     public void setNicotinDependencies(NicotinDependencies nicotinDependencies) {
         this.nicotinDependencies = nicotinDependencies;
     }
+
+    public List<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(List<Mission> missions) {
+        this.missions = missions;
+    }
+
+    public List<MissionRecord> getMissionRecords() {
+        return missionRecords;
+    }
+
+    public void setMissionRecords(List<MissionRecord> missionRecords) {
+        this.missionRecords = missionRecords;
+    }
+
 }

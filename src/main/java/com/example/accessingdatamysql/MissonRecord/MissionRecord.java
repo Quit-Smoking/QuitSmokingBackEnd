@@ -1,5 +1,7 @@
 package com.example.accessingdatamysql.MissonRecord;
 
+import com.example.accessingdatamysql.Mission.Mission;
+import com.example.accessingdatamysql.User.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -11,16 +13,18 @@ public class MissionRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_id")
-    private Integer userId;
-
-    @Column(name = "mission_id")
-    private Integer missionId;
-
     private LocalDate date;
 
     @Column(name = "is_completed")
     private boolean isCompleted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id", nullable = false)
+    private Mission mission;
 
     public Integer getId() {
         return id;
@@ -30,20 +34,20 @@ public class MissionRecord {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getMissionId() {
-        return missionId;
+    public Mission getMission() {
+        return mission;
     }
 
-    public void setMissionId(Integer missionId) {
-        this.missionId = missionId;
+    public void setMission(Mission mission) {
+        this.mission = mission;
     }
 
     public LocalDate getDate() {
