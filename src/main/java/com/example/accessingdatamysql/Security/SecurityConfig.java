@@ -16,7 +16,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests()
                 .anyRequest().permitAll(); // 모든 요청 허용
@@ -26,7 +25,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:5173"); // 로컬 3000포트 출처 허용. "*" :필요시 도메인을 명시. 나중에, 배포된 프론트엔드 도메인을 허용
+        configuration.addAllowedOrigin("http://localhost:5173");
+        configuration.addAllowedOrigin("https://quitsmoking.co.kr");// 로컬 3000포트 출처 허용. "*" :필요시 도메인을 명시. 나중에, 배포된 프론트엔드 도메인을 허용
         configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 인증정보(Cookie, Authorization 등) 허용 여부
