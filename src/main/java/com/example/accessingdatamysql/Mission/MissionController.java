@@ -1,5 +1,6 @@
 package com.example.accessingdatamysql.Mission;
 
+import com.example.accessingdatamysql.MissonRecord.MissionRecord;
 import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController // This means that this class is a Controller
@@ -40,5 +42,11 @@ public class MissionController {
     @Operation(summary = "모든 사용자들의 미션 불러옴")
     public Iterable<Mission> getAllMissions() {
         return missionRepository.findAll();
+    }
+
+    @PostMapping(path="/complete")
+    @Operation(summary="오늘 특정 미션을 완료하면 미션 레코드로 띄울 수 있게 보내기")
+    public Boolean complete(@RequestParam String token, @RequestParam Integer id, @RequestParam LocalDate date){
+        return missionService.complete(token, id, date);
     }
 }

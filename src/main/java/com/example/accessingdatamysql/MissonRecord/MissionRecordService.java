@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MissionRecordService {
@@ -120,6 +117,22 @@ public class MissionRecordService {
         }
 
         return responses;
+    }
+
+    public MissionRecord fetchMissionRecords(String token, Integer missionId, LocalDate date){
+        MissionRecord response = new MissionRecord();
+
+        List<MissionRecord> records = getMissionRecordsByToken(token);
+
+        for(MissionRecord record : records){
+
+            if(record.getDate().isEqual(date) && Objects.equals(record.getMission().getId(), missionId)){
+                response = record;
+                break;
+            }
+        }
+
+        return response;
     }
 
 

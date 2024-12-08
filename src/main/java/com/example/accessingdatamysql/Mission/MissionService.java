@@ -53,7 +53,6 @@ public class MissionService {
 
     }
 
-
     // 미션을 불러온다. 중단된 미션은 불러오지 않는다.
     public List<MissionResponse> getMissions(String token){
         try{
@@ -104,6 +103,20 @@ public class MissionService {
         }
         else{
             return "해당 미션이 없음.";
+        }
+    }
+
+    //미션을 완료하면 자동으로 MissionRecord에 반영한다
+    public Boolean complete(String token, Integer id, LocalDate date){
+
+        Optional<Mission> mission = missionRepository.findById(id);
+
+        if(mission.isPresent()){
+            MissionRecord missionRecord = missionRecordService.fetchMissionRecords(token, id, date);
+            missionRecordService.completeMissionRecord(token, missionRecord.getId());
+            return true;
+        }else{
+            return false;
         }
     }
 }

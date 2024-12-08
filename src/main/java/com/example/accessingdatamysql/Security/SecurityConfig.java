@@ -30,7 +30,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:5173");
         configuration.addAllowedOrigin("https://quitsmoking.co.kr");
-        configuration.addAllowedOrigin("https://quit-smoking-front-end-ucpr.vercel.app");
+        configuration.addAllowedOrigin("https://quit-smoking-front-end-last.vercel.app/");
         configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
         configuration.setAllowCredentials(true); // 인증정보(Cookie, Authorization 등) 허용 여부
