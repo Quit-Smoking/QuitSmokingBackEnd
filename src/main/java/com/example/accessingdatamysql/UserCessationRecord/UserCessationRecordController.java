@@ -20,15 +20,9 @@ public class UserCessationRecordController {
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
-    @PostMapping("/add")
-    @Operation(summary="금연 기록 등록", description="Parameter로 token, end_date를 보내면 start_date를 파악해 함께 db에 저장")// Map ONLY POST Requests
-    public String addNewUserCessationRecord (@RequestParam String token, @RequestParam LocalDate endDate) {
-        return userCessationRecordService.addNewUserCessationRecord(token, endDate);
-    }
-
     @GetMapping("/findByUser")
     @Operation(summary = "특정 사용자 금연 기록 보기" , description="user_id, start_date, end_date를 리턴")
-    public List<UserCessationRecordResponse> getUserCessationRecord(@RequestParam String token){
+    public UserCessationRecordResponse getUserCessationRecord(@RequestParam String token){
         return userCessationRecordService.getUserCessationRecord(token);
     }
 

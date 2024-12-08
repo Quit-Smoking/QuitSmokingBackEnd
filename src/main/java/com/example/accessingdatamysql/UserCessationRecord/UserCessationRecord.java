@@ -13,13 +13,17 @@ public class UserCessationRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    private Integer savedTime;
+
+    private Integer savedMoney;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate start_date;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate end_date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -53,5 +57,21 @@ public class UserCessationRecord {
 
     public void setEndDate(LocalDate end_date) {
         this.end_date = end_date;
+    }
+
+    public Integer getSavedTime() {
+        return savedTime;
+    }
+
+    public void setSavedTime(Integer savedTime) {
+        this.savedTime = savedTime;
+    }
+
+    public Integer getSavedMoney() {
+        return savedMoney;
+    }
+
+    public void setSavedMoney(Integer savedMoney) {
+        this.savedMoney = savedMoney;
     }
 }

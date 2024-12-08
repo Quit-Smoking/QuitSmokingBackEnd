@@ -1,15 +1,9 @@
 package com.example.accessingdatamysql.UserCessationRecord;
 
-import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
-import com.example.accessingdatamysql.User.UserRepository;
 import com.example.accessingdatamysql.User.UserService;
-import com.example.accessingdatamysql.UserStartRecord.UserStartRecordRepository;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,16 +17,24 @@ public class UserCessationRecordService {
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
-    public String addNewUserCessationRecord(String token, LocalDate endDate){
+    public String addUserCessationRecord(String token, Integer savedTime, Integer savedMoney, LocalDate endDate){
         try {
-            UserCessationRecord n = new UserCessationRecord();
 
             User user = userService.findByToken(token);
-            n.setUser(user);
-            n.setStartDate(user.getUserStartRecord().getStartDate());
-            n.setEndDate(endDate);
 
-            userCessationRecordRepository.save(n);
+            // 만약 user가 cessation record를 가지고 있지 않다면
+            UserCessationRecord record = user.getUserCessationRecord();
+            if(record == null) {
+                record = new UserCessationRecord();
+            }
+
+            record.setUser(user);
+            record.setStartDate(user.getUserStartRecord().getStartDate());
+            record.setEndDate(endDate);
+            record.setSavedTime(savedTime);
+            record.setSavedMoney(savedMoney);
+
+            userCessationRecordRepository.save(record);
             return "Saved";
         }
         catch(Exception e){
@@ -40,28 +42,26 @@ public class UserCessationRecordService {
         }
     }
 
-    public List<UserCessationRecordResponse> getUserCessationRecord(String token){
+    public UserCessationRecordResponse getUserCessationRecord(String token){
         User user = userService.findByToken(token);
 
-        List<UserCessationRecordResponse> responses = new ArrayList<>();
+        UserCessationRecordResponse response = new UserCessationRecordResponse();
 
-        for(UserCessationRecord record : user.getUserCessationRecords()){
-            UserCessationRecordResponse response = new UserCessationRecordResponse();
+        UserCessationRecord record = user.getUserCessationRecord();
 
-            response.setStart_date(record.getStartDate());
-            response.setEnd_date(record.getEndDate());
+        response.setSavedMoney(record.getSavedMoney());
+        response.setSavedTime(record.getSavedTime());
+        response.setStart_date(record.getStartDate());
+        response.setEnd_date(record.getEndDate());
 
-            responses.add(response);
-        }
-
-        return responses;
+        return response;
     }
 
     public boolean doExist(String token){
         User user = userService.findByToken(token);
 
-        List<UserCessationRecord> records = user.getUserCessationRecords();
-        return !records.isEmpty();
+        UserCessationRecord record = user.getUserCessationRecord();
+        return record != null;
     }
 
 }
