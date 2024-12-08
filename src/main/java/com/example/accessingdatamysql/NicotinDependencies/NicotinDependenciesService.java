@@ -115,7 +115,12 @@ public class NicotinDependenciesService {
     }
 
     public boolean isTested(String token) {
-        Integer userId = userService.findByToken(token).getId();
-        return nicotinDependenciesRepository.findByUserId(userId) != null;
+        User user = userService.findByToken(token);
+
+        if (user == null || user.getId() == null) {
+            return false;
+        }
+
+        return nicotinDependenciesRepository.findByUserId(user.getId()) != null;
     }
 }
