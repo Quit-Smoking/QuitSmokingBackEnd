@@ -29,8 +29,8 @@ public class User {
     private UserStartRecord userStartRecord;
 
     // userCessationRecord와 연결.
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserCessationRecord> userCessationRecords;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserCessationRecord userCessationRecords;
 
     // post와 연결.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -92,11 +92,11 @@ public class User {
         this.userStartRecord = userStartRecord;
     }
 
-    public List<UserCessationRecord> getUserCessationRecords() {
+    public UserCessationRecord getUserCessationRecord() {
         return userCessationRecords;
     }
 
-    public void setUserCessationRecords(List<UserCessationRecord> userCessationRecords) {
+    public void setUserCessationRecords(UserCessationRecord userCessationRecords) {
         this.userCessationRecords = userCessationRecords;
     }
 

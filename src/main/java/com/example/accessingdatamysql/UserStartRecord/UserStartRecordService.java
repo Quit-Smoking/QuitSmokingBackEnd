@@ -1,10 +1,7 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
-import com.example.accessingdatamysql.Security.JwtUtil;
 import com.example.accessingdatamysql.User.User;
 import com.example.accessingdatamysql.User.UserService;
-import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordController;
-import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordRepository;
 import com.example.accessingdatamysql.UserCessationRecord.UserCessationRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,12 +74,12 @@ public class UserStartRecordService {
 
     @Transactional
     //금연을 중단했을 시 금연기록으로 더해지고 현재 진행중인 금연기록이 삭제된다 --> 금연을 재시작할 수 있는 상태가 됨
-    public String stopQuitting(String token, LocalDate endDate){
+    public String stopQuitting(String token, Integer savedTime,Integer savedMoneyExact ,LocalDate endDate){
         User user = userService.findByToken(token);
 
         UserStartRecord userRecord = user.getUserStartRecord();
 
-        String saved = userCessationRecordService.addNewUserCessationRecord(token, endDate);
+        String saved = userCessationRecordService.addUserCessationRecord(token, savedTime, savedMoneyExact, endDate);
 
         user.setUserStartRecord(null);
         userStartRecordRepository.deleteById(userRecord.getId());
