@@ -48,7 +48,7 @@ public class MissionRecordController {
         return missionRecordService.fetchMissionRecords(token, date);
     }
 
-    @GetMapping(path = "/completeMission")
+    @PostMapping(path = "/completeMission")
     public String completeMissionRecord(@RequestParam String token, @RequestParam Integer missionRecordId){
         return missionRecordService.completeMissionRecord(token, missionRecordId);
     }
