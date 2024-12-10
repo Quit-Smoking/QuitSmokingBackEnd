@@ -13,7 +13,7 @@ public class UserCessationRecord {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer savedTime;
+    private float savedTime;
 
     private Integer savedMoney;
 
@@ -59,11 +59,11 @@ public class UserCessationRecord {
         this.end_date = end_date;
     }
 
-    public Integer getSavedTime() {
+    public float getSavedTime() {
         return savedTime;
     }
 
-    public void setSavedTime(Integer savedTime) {
+    public void setSavedTime(float savedTime) {
         this.savedTime = savedTime;
     }
 

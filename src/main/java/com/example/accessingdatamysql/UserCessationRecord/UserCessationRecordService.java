@@ -17,7 +17,7 @@ public class UserCessationRecordService {
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
-    public String addUserCessationRecord(String token, Integer savedTime, Integer savedMoney, LocalDate endDate){
+    public String addUserCessationRecord(String token, float savedTime, Integer savedMoney, LocalDate endDate){
         try {
 
             User user = userService.findByToken(token);

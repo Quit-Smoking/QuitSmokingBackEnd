@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class UserCessationRecordResponse {
 
-    private Integer savedTime;
+    private float savedTime;
 
     private Integer savedMoney;
 
@@ -30,11 +30,11 @@ public class UserCessationRecordResponse {
         this.start_date = start_date;
     }
 
-    public Integer getSavedTime() {
+    public float getSavedTime() {
         return savedTime;
     }
 
-    public void setSavedTime(Integer savedTime) {
+    public void setSavedTime(float savedTime) {
         this.savedTime = savedTime;
     }
 

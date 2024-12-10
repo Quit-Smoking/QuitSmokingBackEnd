@@ -44,7 +44,7 @@ public class UserStartRecordController {
 
     @DeleteMapping("/stop")
     @Operation(summary = "현재진행중인 금연 삭제 및 금연 기록 등록", description="현재 진행중인 금연 데이터를 삭제하고 금연 기록(UserCessationRecord)으로 저장을 함")
-    public String stopQuitting(@RequestParam String token, @RequestParam Integer savedTime, @RequestParam Integer savedMoney){
+    public String stopQuitting(@RequestParam String token, @RequestParam float savedTime, @RequestParam Integer savedMoney){
         return userStartRecordService.stopQuitting(token, savedTime, savedMoney, LocalDate.now());
     }
 

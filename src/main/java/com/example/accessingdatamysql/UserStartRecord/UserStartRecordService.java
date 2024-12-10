@@ -74,7 +74,7 @@ public class UserStartRecordService {
 
     @Transactional
     //금연을 중단했을 시 금연기록으로 더해지고 현재 진행중인 금연기록이 삭제된다 --> 금연을 재시작할 수 있는 상태가 됨
-    public String stopQuitting(String token, Integer savedTime,Integer savedMoneyExact ,LocalDate endDate){
+    public String stopQuitting(String token, float savedTime,Integer savedMoneyExact ,LocalDate endDate){
         User user = userService.findByToken(token);
 
         UserStartRecord userRecord = user.getUserStartRecord();
