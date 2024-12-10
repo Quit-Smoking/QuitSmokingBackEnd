@@ -25,6 +25,11 @@ public class PostController {
     @Operation(summary = "게시글 좋아요 누르기")
     public String likePost(@RequestParam Integer id){ return postService.likePost(id); }
 
+
+    @PostMapping("/dislike")
+    @Operation(summary = "좋아요 취소.")
+    public String dislikePost(@RequestParam Integer id){return postService.dislikePost(id);}
+
     @GetMapping("/findByPostId")
     @Operation(summary = "게시글 찾기", description="게시글 id로 게시글 불러오기")
     public PostResponse findPostById(@RequestParam Integer id){ return postService.getPostResponseById(id); }

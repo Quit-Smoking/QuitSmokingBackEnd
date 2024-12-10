@@ -89,6 +89,18 @@ public class PostService {
         }
     }
 
+    public String dislikePost(Integer id){
+        if(isExistsById(id)){
+            Post post = findById(id);
+            post.setNumberOfLikes(post.getNumberOfLikes()-1);
+            postRepository.save(post);
+            return "Saved";
+        }
+        else {
+            return "The post doesn't exist";
+        }
+    }
+
     @Transactional
     public String deleteById(String token, Integer id){
         User user = userService.findByToken(token);
