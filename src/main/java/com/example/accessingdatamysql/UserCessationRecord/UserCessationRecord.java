@@ -1,10 +1,11 @@
 package com.example.accessingdatamysql.UserCessationRecord;
 
 import com.example.accessingdatamysql.User.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name="user_cessation_records")
@@ -17,11 +18,9 @@ public class UserCessationRecord {
 
     private Integer savedMoney;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate start_date;
+    private LocalDateTime start_date;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate end_date;
+    private LocalDateTime end_date;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -43,19 +42,19 @@ public class UserCessationRecord {
         this.user = user;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return start_date;
     }
 
-    public void setStartDate(LocalDate start_date) {
+    public void setStartDate(LocalDateTime start_date) {
         this.start_date = start_date;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return end_date;
     }
 
-    public void setEndDate(LocalDate end_date) {
+    public void setEndDate(LocalDateTime end_date) {
         this.end_date = end_date;
     }
 

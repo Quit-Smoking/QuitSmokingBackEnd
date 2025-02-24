@@ -1,6 +1,8 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
 
 public class UserStartRecordResponse {
 
@@ -10,7 +12,8 @@ public class UserStartRecordResponse {
 
     private Integer numbersSmoked;
 
-    private LocalDate startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime startDate;
 
     public String getMotive() {
         return motive;
@@ -36,11 +39,11 @@ public class UserStartRecordResponse {
         this.numbersSmoked = numbersSmoked;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 

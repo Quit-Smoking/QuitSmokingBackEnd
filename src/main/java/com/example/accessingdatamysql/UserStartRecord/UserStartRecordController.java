@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping(path="/UserStartRecord")
@@ -44,8 +44,9 @@ public class UserStartRecordController {
 
     @DeleteMapping("/stop")
     @Operation(summary = "현재진행중인 금연 삭제 및 금연 기록 등록", description="현재 진행중인 금연 데이터를 삭제하고 금연 기록(UserCessationRecord)으로 저장을 함")
-    public String stopQuitting(@RequestParam String token, @RequestParam float savedTime, @RequestParam Integer savedMoney){
-        return userStartRecordService.stopQuitting(token, savedTime, savedMoney, LocalDate.now());
+    public String stopQuitting(@RequestParam String token, @RequestParam float savedTime, @RequestParam Integer savedMoney, @RequestParam LocalDateTime endDate){
+//        LocalDateTime parsedEndDate = LocalDateTime.parse(endDate);
+        return userStartRecordService.stopQuitting(token, savedTime, savedMoney, endDate);
     }
 
 }
