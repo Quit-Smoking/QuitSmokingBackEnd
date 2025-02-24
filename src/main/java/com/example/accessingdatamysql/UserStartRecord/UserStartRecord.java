@@ -1,10 +1,11 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
 import com.example.accessingdatamysql.User.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="UserStartRecord")
@@ -19,8 +20,7 @@ public class UserStartRecord {
 
     private Integer numbersSmoked;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -65,10 +65,10 @@ public class UserStartRecord {
     public void setNumbersSmoked(Integer numbersSmoked) {
         this.numbersSmoked = numbersSmoked;
     }
-    public LocalDate getStartDate(){
+    public LocalDateTime getStartDate(){
         return startDate;
     }
-    public void setStartDate(LocalDate startDate){
+    public void setStartDate(LocalDateTime startDate){
         this.startDate = startDate;
     }
 }

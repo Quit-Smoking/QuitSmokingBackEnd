@@ -5,7 +5,7 @@ import com.example.accessingdatamysql.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class UserCessationRecordService {
     @Autowired
     private UserCessationRecordRepository userCessationRecordRepository;
 
-    public String addUserCessationRecord(String token, float savedTime, Integer savedMoney, LocalDate endDate){
+    public String addUserCessationRecord(String token, float savedTime, Integer savedMoney, LocalDateTime endDate){
         try {
 
             User user = userService.findByToken(token);

@@ -1,13 +1,13 @@
 package com.example.accessingdatamysql.UserStartRecord;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class UserStartRecordRequest {
 
     private String token;
     private String resolution;
     private String motive;
-    private LocalDate startDate;
+    private LocalDateTime startDate;
     private Integer numbersSmoked;
 
     public String getToken() {
@@ -26,7 +26,7 @@ public class UserStartRecordRequest {
         return motive;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 }
