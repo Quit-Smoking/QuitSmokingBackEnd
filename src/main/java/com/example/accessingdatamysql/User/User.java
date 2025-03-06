@@ -2,6 +2,8 @@ package com.example.accessingdatamysql.User;
 
 import com.example.accessingdatamysql.Board.Comment;
 import com.example.accessingdatamysql.Board.Post;
+import com.example.accessingdatamysql.Item.EquippedItem;
+import com.example.accessingdatamysql.Item.UserItem;
 import com.example.accessingdatamysql.Mission.Mission;
 import com.example.accessingdatamysql.MissonRecord.MissionRecord;
 import com.example.accessingdatamysql.NicotinDependencies.NicotinDependencies;
@@ -23,6 +25,8 @@ public class User {
     private String password;
 
     private String nickname;
+
+    private Integer coin;
 
     // userStartRecord와 연결.
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,6 +55,22 @@ public class User {
     // missionRecord와 연결.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MissionRecord> missionRecords;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserItem> userItems;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EquippedItem> equippedItems;
+
+    public List<EquippedItem> getEquippedItems() {
+        return equippedItems;
+    }
+
+    public void setEquippedItems(List<EquippedItem> equippedItems) {
+        this.equippedItems = equippedItems;
+    }
 
     public Integer getId() {
         return id;
@@ -140,4 +160,20 @@ public class User {
         this.missionRecords = missionRecords;
     }
 
+    public Integer getCoin() {
+        return coin;
+    }
+
+    public void setCoin(Integer coin) {
+        this.coin = coin;
+    }
+
+
+    public List<UserItem> getUserItems() {
+        return userItems;
+    }
+
+    public void setUserItems(List<UserItem> userItems) {
+        this.userItems = userItems;
+    }
 }
